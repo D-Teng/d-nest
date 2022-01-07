@@ -1,6 +1,6 @@
-console.log(process.env);
 const { DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE } =
   process.env;
+console.log(DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 const config = {
   type: DB_TYPE,
   host: DB_HOST,
