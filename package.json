@@ -14,7 +14,6 @@
     "schema:log": "typeorm schema:log",
     "schema:drop": "typeorm schema:drop",
     "cache:clear": "typeorm cache:clear",
-    "dev": "ts-node index.ts",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

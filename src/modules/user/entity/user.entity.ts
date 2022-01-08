@@ -40,7 +40,10 @@ export class UserEntity extends AbstractEntity implements IUserEntity {
   @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
   role: RoleType;
 
-  @Column({ unique: true, nullable: true })
+  @Column({
+    // unique: true,
+    nullable: true,
+  })
   email?: string;
 
   @Column({ nullable: true })
