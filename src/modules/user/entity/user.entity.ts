@@ -8,6 +8,7 @@ import {
   IUserSettingsEntity,
   UserSettingsEntity,
 } from './user-settings.entity';
+import { Exclude } from 'class-transformer';
 
 export interface IUserEntity extends IAbstractEntity {
   firstName?: string;
@@ -47,6 +48,7 @@ export class UserEntity extends AbstractEntity implements IUserEntity {
   email?: string;
 
   @Column({ nullable: true })
+  // @Exclude()
   password?: string;
 
   @Column({ nullable: true })

@@ -55,9 +55,9 @@ export class UserService {
   //   return this.userRepository.save(userEntity);
   // }
 
-  // async findAll(): Promise<UserEntity[]> {
-  //   return this.userRepository.find();
-  // }
+  async findAll(): Promise<UserEntity[]> {
+    return this.userRepository.find();
+  }
 
   // findOne(id: string): Promise<UserEntity> {
   //   return this.userRepository.findOne(id);

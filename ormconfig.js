@@ -8,8 +8,8 @@ const config = {
   username: DB_USERNAME,
   password: DB_PASSWORD,
   database: DB_DATABASE,
-  entities: ['dist/src/modules/**/entity/*.entity.js'],
-  migrations: ['dist/src/database/migration/*.js'],
+  entities: ['dist/modules/**/entity/*.js'],
+  migrations: ['dist/database/migration/*.js'],
   cli: {
     migrationsDir: 'src/database/migration',
   },
@@ -22,7 +22,7 @@ const config = {
   // retryDelay
   // 如果为true,将自动加载实体(默认：false)
   // autoLoadEntities
-  // 如果为true，在应用程序关闭后连接不会关闭（默认：false)
+  // 如果为true，在应用程序关闭后连接不会关闭(默认：false)
   // keepConnectionAlive
 };
 
