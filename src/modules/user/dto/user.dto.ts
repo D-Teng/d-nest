@@ -3,14 +3,14 @@ import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { RoleType } from '../../../constants';
 
 export class UserDto extends AbstractDto {
+  @ApiProperty()
+  username: string;
+
   @ApiPropertyOptional()
   firstName: string;
 
   @ApiPropertyOptional()
   lastName: string;
-
-  @ApiProperty()
-  username: string;
 
   @ApiPropertyOptional({ enum: RoleType })
   role: RoleType;

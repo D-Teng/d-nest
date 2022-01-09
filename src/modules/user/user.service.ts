@@ -19,6 +19,7 @@ export class UserService {
     private readonly connection: Connection,
   ) {}
 
+  //TODO 事务未生效
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
@@ -36,6 +37,7 @@ export class UserService {
       return user;
     } catch (err) {
       await queryRunner.rollbackTransaction();
+      throw err;
     } finally {
       await queryRunner.release();
     }
@@ -62,9 +64,6 @@ export class UserService {
     updateDto: UpdateDto,
     manager: EntityManager,
   ): Promise<string> {
-    function t<T, U>(a: any, b: any) {
-      return b;
-    }
     const updateUserDto = new UpdateUserDto(updateDto);
     const updateSettingsDto = new UpdateSettingsDto(updateDto);
     await manager.update(
@@ -96,7 +95,7 @@ export class UserService {
   async findOneByUsername(username: string): Promise<UserEntity> {
     return this.userRepository.findOne(
       {
-        firstName: username,
+        username,
       },
       // {
       //   relations: ['settings'],

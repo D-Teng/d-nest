@@ -30,6 +30,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('role1')
   getRole1(@User('234') user: any): string {
     return 'role1';

@@ -14,11 +14,18 @@ export class CreateUserDto {
   @IsString()
   // Checks if given value is not empty (!== '', !== null, !== undefined).
   @IsNotEmpty()
+  username: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   firstName: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   lastName: string;
 
   @ApiProperty()
