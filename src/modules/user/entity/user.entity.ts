@@ -1,64 +1,65 @@
 import {
   AbstractEntity,
   IAbstractEntity,
-} from '../../../common/abstract.entity';
+} from '../../../common/entity/abstract.entity';
 import { RoleType } from '../../../constants';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import {
   IUserSettingsEntity,
   UserSettingsEntity,
 } from './user-settings.entity';
-import { Exclude } from 'class-transformer';
 
 export interface IUserEntity extends IAbstractEntity {
-  firstName?: string;
+  firstName: string;
 
-  lastName?: string;
+  lastName: string;
 
   role: RoleType;
 
-  email?: string;
+  email: string;
 
-  password?: string;
+  password: string;
 
-  phone?: string;
+  phone: string;
 
-  avatar?: string;
+  avatar: string;
 
-  fullName?: string;
+  fullName: string;
 
-  settings?: IUserSettingsEntity;
+  settings: IUserSettingsEntity;
 }
 
 @Entity({ name: 'user' })
 export class UserEntity extends AbstractEntity implements IUserEntity {
   @Column({ nullable: true })
-  firstName?: string;
+  firstName: string;
 
   @Column({ nullable: true })
-  lastName?: string;
+  lastName: string;
 
   @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
   role: RoleType;
 
   @Column({
-    // unique: true,
     nullable: true,
   })
-  email?: string;
+  email: string;
 
   @Column({ nullable: true })
   // @Exclude()
-  password?: string;
+  password: string;
 
   @Column({ nullable: true })
-  phone?: string;
+  phone: string;
 
   @Column({ nullable: true })
-  avatar?: string;
+  avatar: string;
 
-  fullName?: string;
+  fullName: string;
 
-  @OneToOne(() => UserSettingsEntity, (userSettings) => userSettings.user)
-  settings?: UserSettingsEntity;
+  @OneToOne(
+    () => UserSettingsEntity,
+    (userSettingsEntity) => userSettingsEntity.user,
+  )
+  settings: UserSettingsEntity;
 }

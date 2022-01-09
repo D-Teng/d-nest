@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
-import { Connection, Repository } from 'typeorm';
-import { CreateSettingsDto } from './dto/create-settings.dto';
-import { CreateUserDto } from './dto/create-user-dto';
+import { Connection, EntityManager, Repository } from 'typeorm';
+import { CreateUserDto, CreateSettingsDto } from './dto/create-dto';
+import { UpdateDto, UpdateUserDto, UpdateSettingsDto } from './dto/update-dto';
 import { UserSettingsEntity } from './entity/user-settings.entity';
 import { UserEntity } from './entity/user.entity';
+
+//TODO bcrtpy加密password
 
 @Injectable()
 export class UserService {
@@ -13,24 +15,24 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(UserSettingsEntity)
-    private readonly userSettingsEntity: Repository<UserSettingsEntity>,
+    private readonly userSettingsRepository: Repository<UserSettingsEntity>,
     private readonly connection: Connection,
   ) {}
 
-  async create(userRegisterDto: CreateUserDto): Promise<UserEntity> {
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      const user = this.userRepository.create(userRegisterDto);
-      await this.userRepository.save(user);
-      user.settings = await this.createSettings(
+      const settings = await this.createSettings(
         plainToInstance(CreateSettingsDto, {
           isEmailVerified: false,
           isPhoneVerified: false,
-          userId: user.id,
         }),
       );
+      const user = this.userRepository.create(createUserDto);
+      user.settings = settings;
+      await this.userRepository.save(user);
       return user;
     } catch (err) {
       await queryRunner.rollbackTransaction();
@@ -42,28 +44,63 @@ export class UserService {
   async createSettings(
     createSettingsDto: CreateSettingsDto,
   ): Promise<UserSettingsEntity> {
-    const userSettings = this.userSettingsEntity.create(createSettingsDto);
-    await this.userSettingsEntity.save(userSettings);
+    const userSettings = this.userSettingsRepository.create(createSettingsDto);
+    await this.userSettingsRepository.save(userSettings);
     return userSettings;
   }
 
-  // create(createUserDto: CreateUserDto): Promise<UserEntity> {
-  //   const userEntity = new UserEntity();
-  //   userEntity.firstName = createUserDto.firstName;
-  //   userEntity.lastName = createUserDto.lastName;
-
-  //   return this.userRepository.save(userEntity);
-  // }
-
-  async findAll(): Promise<UserEntity[]> {
-    return this.userRepository.find();
+  async delete(id: string, manager: EntityManager): Promise<string> {
+    await manager.delete(UserSettingsEntity, {
+      user: id,
+    });
+    await manager.delete(UserEntity, id);
+    return id;
   }
 
-  // findOne(id: string): Promise<UserEntity> {
-  //   return this.userRepository.findOne(id);
-  // }
+  async update(
+    id: string,
+    updateDto: UpdateDto,
+    manager: EntityManager,
+  ): Promise<string> {
+    function t<T, U>(a: any, b: any) {
+      return b;
+    }
+    const updateUserDto = new UpdateUserDto(updateDto);
+    const updateSettingsDto = new UpdateSettingsDto(updateDto);
+    await manager.update(
+      UserSettingsEntity,
+      {
+        user: id,
+      },
+      updateSettingsDto,
+    );
+    await manager.update(UserEntity, id, updateUserDto);
+    return id;
+  }
 
-  // async remove(id: string): Promise<void> {
-  //   await this.userRepository.delete(id);
-  // }
+  async findAll(): Promise<UserEntity[]> {
+    return this.userRepository.find({
+      relations: ['settings'],
+    });
+  }
+
+  async findOne(id: string): Promise<UserEntity> {
+    return this.userRepository.findOne(
+      { id },
+      {
+        relations: ['settings'],
+      },
+    );
+  }
+
+  async findOneByUsername(username: string): Promise<UserEntity> {
+    return this.userRepository.findOne(
+      {
+        firstName: username,
+      },
+      // {
+      //   relations: ['settings'],
+      // },
+    );
+  }
 }

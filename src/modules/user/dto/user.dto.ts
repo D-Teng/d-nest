@@ -4,10 +4,10 @@ import { RoleType } from '../../../constants';
 
 export class UserDto extends AbstractDto {
   @ApiPropertyOptional()
-  firstName?: string;
+  firstName: string;
 
   @ApiPropertyOptional()
-  lastName?: string;
+  lastName: string;
 
   @ApiProperty()
   username: string;
@@ -16,14 +16,14 @@ export class UserDto extends AbstractDto {
   role: RoleType;
 
   @ApiPropertyOptional()
-  email?: string;
+  email: string;
 
   @ApiPropertyOptional()
-  avatar?: string;
+  avatar: string;
 
   @ApiPropertyOptional()
-  phone?: string;
+  phone: string;
 
   @ApiPropertyOptional()
-  isActive?: boolean;
+  isActive: boolean;
 }

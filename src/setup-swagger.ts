@@ -4,7 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 export function setupSwagger(app: INestApplication) {
   const options = new DocumentBuilder()
     .setTitle('API')
-    // .addBearerAuth()
+    .addBearerAuth()
     .setVersion('1.0');
 
   const document = SwaggerModule.createDocument(app, options.build());
