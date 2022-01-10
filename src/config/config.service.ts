@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import * as dotenv from 'dotenv';
-import * as fs from 'fs';
-import * as path from 'path';
+import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
 import { CONFIG_OPTIONS } from './constants';
 import { ConfigOptions, EnvConfig } from './interfaces';
 

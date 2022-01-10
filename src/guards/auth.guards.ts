@@ -1,19 +1,7 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { AuthGuard as _AuthGuard } from '@nestjs/passport';
+import { JwtConstants } from 'src/constants';
 
-function validateRequest(
-  request: any,
-): boolean | Promise<boolean> | Observable<boolean> {
-  return false;
-}
-
-@Injectable()
-export class AuthGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const user = request.user;
-    return validateRequest(request);
-  }
+export function AuthGuard() {
+  const strategies = [JwtConstants.strategyName];
+  return _AuthGuard(strategies);
 }

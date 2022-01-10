@@ -10,14 +10,16 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) {
+    console.log('AuthService');
+  }
   getHello(): string {
     const n = this.configService.get<string>('DB_DATABASE');
     return 'Hello auth ' + n;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.id };
+    const payload = { username: user.username, sub: user.id, role: user.role };
     return {
       access_token: this.jwtService.sign(payload),
     };

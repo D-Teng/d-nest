@@ -8,21 +8,43 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
-// import { RolesGuard } from './guards/roles.guard';
+import helmet from 'helmet';
+import csurf from 'csurf';
+import rateLimit from 'express-rate-limit';
 import { setupSwagger } from './setup-swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import compression from 'compression';
+import morgan from 'morgan';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  const configService = app.select(ConfigModule).get(ConfigService);
+  app.enable('trust proxy');
 
-  // 全局守卫 这种方式注册不能插入依赖项
-  // app.useGlobalGuards(new RolesGuard());
+  app.enableCors();
 
-  app.useGlobalInterceptors(
-    // new TransformInterceptor(),
-    new LoggingInterceptor(),
+  app.use(helmet());
+
+  // app.use(csurf());
+
+  app.use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // limit each IP to 100 requests per windowMs
+    }),
   );
+
+  app.use(compression());
+
+  app.use(morgan('combined'));
+
+  // app.useGlobalGuards();
+
+  app
+    .useGlobalInterceptors
+    // new TransformInterceptor(),
+    // new LoggingInterceptor(),
+    ();
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -34,7 +56,10 @@ async function bootstrap() {
     }),
   );
 
-  //TODO 封装获取方法
+  // app.useGlobalFilters();
+
+  const configService = app.select(ConfigModule).get(ConfigService);
+
   const ENABLE_DOCUMENTATION = configService.get<string>(
     'ENABLE_DOCUMENTATION',
   );

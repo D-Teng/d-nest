@@ -7,8 +7,6 @@ import { UpdateDto, UpdateUserDto, UpdateSettingsDto } from './dto/update-dto';
 import { UserSettingsEntity } from './entity/user-settings.entity';
 import { UserEntity } from './entity/user.entity';
 
-//TODO bcrtpy加密password
-
 @Injectable()
 export class UserService {
   constructor(
@@ -19,7 +17,6 @@ export class UserService {
     private readonly connection: Connection,
   ) {}
 
-  //TODO 事务未生效
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
