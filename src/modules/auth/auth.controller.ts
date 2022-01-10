@@ -1,22 +1,19 @@
 import {
   Controller,
-  Request,
   Get,
   HttpException,
   HttpStatus,
   Post,
-  UseGuards,
-  UseInterceptors,
-  HttpCode,
+  Request,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { User } from 'src/decorators/user.decorator';
 import { AuthGuard } from '@nestjs/passport';
-import { Auth } from 'src/decorators/auth.decorator';
-import { RoleType } from 'src/constants';
-import { RolesGuard } from 'src/guards/roles.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { RoleType } from 'src/constants';
+import { Auth } from 'src/decorators/auth.decorator';
+import { User } from 'src/decorators/user.decorator';
+import { AuthService } from './auth.service';
 // import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
 
 // @UseInterceptors(LoggingInterceptor)

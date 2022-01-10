@@ -1,9 +1,9 @@
 // 有时我们可能希望完全阻止调用处理程序并返回不同的值 (例如, 由于性能问题而从缓存中获取), 这是有多种原因的。一个很好的例子是缓存拦截器，它将使用一些TTL存储缓存的响应。不幸的是, 这个功能需要更多的代码并且由于简化, 我们将仅提供简要解释主要概念的基本示例。
 import {
+  CallHandler,
+  ExecutionContext,
   Injectable,
   NestInterceptor,
-  ExecutionContext,
-  CallHandler,
 } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 

@@ -1,5 +1,4 @@
 import { EntityRepository, Repository } from 'typeorm';
-
 import { UserSettingsEntity } from '../entity/user-settings.entity';
 
 @EntityRepository(UserSettingsEntity)

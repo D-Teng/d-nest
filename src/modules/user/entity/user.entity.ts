@@ -1,14 +1,14 @@
+import { Exclude, Expose } from 'class-transformer';
+import { Column, Entity, OneToOne } from 'typeorm';
 import {
   AbstractEntity,
   IAbstractEntity,
 } from '../../../common/entity/abstract.entity';
 import { RoleType } from '../../../constants';
-import { Column, Entity, OneToOne } from 'typeorm';
 import {
   IUserSettingsEntity,
   UserSettingsEntity,
 } from './user-settings.entity';
-import { Exclude, Expose, Transform } from 'class-transformer';
 
 export interface IUserEntity extends IAbstractEntity {
   firstName: string;

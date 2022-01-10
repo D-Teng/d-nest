@@ -1,21 +1,13 @@
-import {
-  ClassSerializerInterceptor,
-  HttpStatus,
-  UnprocessableEntityException,
-  ValidationPipe,
-} from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
-import { TransformInterceptor } from './interceptors/transform.interceptor';
-import helmet from 'helmet';
-import csurf from 'csurf';
-import rateLimit from 'express-rate-limit';
-import { setupSwagger } from './setup-swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import compression from 'compression';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import morgan from 'morgan';
+import { AppModule } from './app.module';
+import { setupSwagger } from './setup-swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

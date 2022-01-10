@@ -1,9 +1,9 @@
-import { Injectable, SerializeOptions } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { Connection, EntityManager, Repository } from 'typeorm';
-import { CreateUserDto, CreateSettingsDto } from './dto/create-dto';
-import { UpdateDto, UpdateUserDto, UpdateSettingsDto } from './dto/update-dto';
+import { CreateSettingsDto, CreateUserDto } from './dto/create-dto';
+import { UpdateDto, UpdateSettingsDto, UpdateUserDto } from './dto/update-dto';
 import { UserSettingsEntity } from './entity/user-settings.entity';
 import { UserEntity } from './entity/user.entity';
 
