@@ -8,6 +8,7 @@ import {
   IUserSettingsEntity,
   UserSettingsEntity,
 } from './user-settings.entity';
+import { Exclude, Expose, Transform } from 'class-transformer';
 
 export interface IUserEntity extends IAbstractEntity {
   firstName: string;
@@ -51,6 +52,7 @@ export class UserEntity extends AbstractEntity implements IUserEntity {
   email: string;
 
   @Column({ nullable: true })
+  @Exclude()
   password: string;
 
   @Column({ nullable: true })
@@ -59,7 +61,12 @@ export class UserEntity extends AbstractEntity implements IUserEntity {
   @Column({ nullable: true })
   avatar: string;
 
-  fullName: string;
+  // fullName: string;
+
+  @Expose()
+  get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
 
   @OneToOne(
     () => UserSettingsEntity,

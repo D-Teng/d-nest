@@ -13,6 +13,7 @@ export class AuthService {
   ) {
     console.log('AuthService');
   }
+
   getHello(): string {
     const n = this.configService.get<string>('DB_DATABASE');
     return 'Hello auth ' + n;
@@ -28,7 +29,7 @@ export class AuthService {
   async validateUser(
     username: string,
     password: string,
-  ): Promise<Omit<UserEntity, 'password'>> {
+  ): Promise<Omit<UserEntity, 'password' | 'fullName'>> {
     const user = await this.userService.findOneByUsername(username);
     if (user && user.password === password) {
       const { password, ...result } = user;

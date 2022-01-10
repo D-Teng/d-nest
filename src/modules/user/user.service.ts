@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, SerializeOptions } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { Connection, EntityManager, Repository } from 'typeorm';

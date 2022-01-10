@@ -1,10 +1,11 @@
 import {
+  ClassSerializerInterceptor,
   HttpStatus,
   UnprocessableEntityException,
   ValidationPipe,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
@@ -40,19 +41,22 @@ async function bootstrap() {
 
   // app.useGlobalGuards();
 
-  app
-    .useGlobalInterceptors
+  //序列化支持
+  const reflector = app.get(Reflector);
+  app.useGlobalInterceptors(
     // new TransformInterceptor(),
     // new LoggingInterceptor(),
-    ();
+    // 序列化(Serialization)是一个在网络响应中返回对象前的过程。 这是一个适合转换和净化要返回给客户的数据的地方。
+    new ClassSerializerInterceptor(reflector),
+  );
 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      transform: true,
       // errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-      // transform: true,
-      // dismissDefaultMessages: true,
       // exceptionFactory: (errors) => new UnprocessableEntityException(errors),
+      // dismissDefaultMessages: true,
     }),
   );
 

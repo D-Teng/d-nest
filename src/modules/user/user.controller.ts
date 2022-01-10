@@ -1,13 +1,11 @@
 import {
   Body,
-  // ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
   Param,
   Post,
   Put,
-  // UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { EntityManager, Transaction, TransactionManager } from 'typeorm';
@@ -16,7 +14,6 @@ import { UpdateDto } from './dto/update-dto';
 import { UserEntity } from './entity/user.entity';
 import { UserService } from './user.service';
 
-// @UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
 @ApiTags('users')
 export class UserController {
