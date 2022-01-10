@@ -13,19 +13,19 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
-    UserModule,
+    ArticleModule,
     AuthModule,
+    UserModule,
+    TypeOrmModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
         process.env.NODE_ENV === 'development' ? '.development.env' : '.env',
     }),
     // ConfigModule.register({ folder: './config' }),
-    TypeOrmModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: path.resolve(process.cwd(), 'public'),
     }),
-    ArticleModule,
   ],
   providers: [
     // {

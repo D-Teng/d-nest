@@ -1,4 +1,9 @@
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  HttpStatus,
+  UnprocessableEntityException,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -7,6 +12,9 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { QueryFailedFilter } from './filters/query-failed.filter';
+import { UnprocessableEntityFilter } from './filters/unprocessableEntity-entity.filter';
 import { setupSwagger } from './setup-swagger';
 
 async function bootstrap() {
@@ -46,13 +54,17 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      // errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-      // exceptionFactory: (errors) => new UnprocessableEntityException(errors),
-      // dismissDefaultMessages: true,
+      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+      exceptionFactory: (errors) => new UnprocessableEntityException(errors),
+      dismissDefaultMessages: true,
     }),
   );
 
-  // app.useGlobalFilters();
+  // app.useGlobalFilters(
+  //   new HttpExceptionFilter(),
+  //   new UnprocessableEntityFilter(reflector),
+  //   new QueryFailedFilter(reflector),
+  // );
 
   const configService = app.select(ConfigModule).get(ConfigService);
 

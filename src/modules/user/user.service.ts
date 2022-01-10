@@ -34,6 +34,7 @@ export class UserService {
       return user;
     } catch (err) {
       await queryRunner.rollbackTransaction();
+      console.log('回滚');
       throw err;
     } finally {
       await queryRunner.release();

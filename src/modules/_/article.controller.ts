@@ -1,9 +1,9 @@
 import {
   Body,
-  CacheKey,
-  CacheTTL,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
 } from '@nestjs/common';
@@ -15,10 +15,9 @@ import { ArticleService } from './article.service';
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
   @Get()
-  @CacheKey('custom_key')
-  @CacheTTL(20)
   get() {
-    return 'article';
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    // return '123';
   }
 
   @Get(':id')
