@@ -1,37 +1,11 @@
 import { Exclude, Expose } from 'class-transformer';
 import { Column, Entity, OneToOne } from 'typeorm';
-import {
-  AbstractEntity,
-  IAbstractEntity,
-} from '../../../common/entity/abstract.entity';
+import { AbstractEntity } from '../../../common/entity/abstract.entity';
 import { RoleType } from '../../../constants';
-import {
-  IUserSettingsEntity,
-  UserSettingsEntity,
-} from './user-settings.entity';
-
-export interface IUserEntity extends IAbstractEntity {
-  firstName: string;
-
-  lastName: string;
-
-  role: RoleType;
-
-  email: string;
-
-  password: string;
-
-  phone: string;
-
-  avatar: string;
-
-  fullName: string;
-
-  settings: IUserSettingsEntity;
-}
+import { UserSettingsEntity } from './user-settings.entity';
 
 @Entity({ name: 'user' })
-export class UserEntity extends AbstractEntity implements IUserEntity {
+export class UserEntity extends AbstractEntity {
   @Column({
     unique: true,
   })
@@ -60,8 +34,6 @@ export class UserEntity extends AbstractEntity implements IUserEntity {
 
   @Column({ nullable: true })
   avatar: string;
-
-  // fullName: string;
 
   @Expose()
   get fullName(): string {
