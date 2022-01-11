@@ -1,5 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Column, Entity, OneToOne } from 'typeorm';
+import { ArticleEntity } from 'src/modules/article/entities/article.entity';
+import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { AbstractEntity } from '../../../common/entity/abstract.entity';
 import { RoleType } from '../../../constants';
 import { UserSettingsEntity } from './user-settings.entity';
@@ -17,8 +18,8 @@ export class UserEntity extends AbstractEntity {
   @Column({ nullable: true })
   lastName: string;
 
-  @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
-  role: RoleType;
+  @Column('simple-array')
+  roles: string[];
 
   @Column({
     nullable: true,
@@ -45,4 +46,7 @@ export class UserEntity extends AbstractEntity {
     (userSettingsEntity) => userSettingsEntity.user,
   )
   settings: UserSettingsEntity;
+
+  @OneToMany(() => ArticleEntity, (article) => article.author)
+  articles: ArticleEntity[];
 }
