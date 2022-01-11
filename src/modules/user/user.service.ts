@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { CreateSettingsDto, CreateUserDto } from './dto/create-dto';
-import { UpdateDto, UpdateSettingsDto, UpdateUserDto } from './dto/update-dto';
-import { UserSettingsEntity } from './entity/user-settings.entity';
-import { UserEntity } from './entity/user.entity';
+import { CreateSettingsDto, CreateUserDto } from './dtos/create-dto';
+import { UpdateDto, UpdateSettingsDto, UpdateUserDto } from './dtos/update-dto';
+import { UserSettingsEntity } from './entities/user-settings.entity';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {

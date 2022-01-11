@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserSettingsEntity } from './entity/user-settings.entity';
-import { UserEntity } from './entity/user.entity';
-import { UserSettingsRepository } from './repository/user-settings.repository';
-import { UserRepository } from './repository/user.repository';
+import { UserSettingsEntity } from './entities/user-settings.entity';
+import { UserEntity } from './entities/user.entity';
+import { UserSettingsRepository } from './repositories/user-settings.repository';
+import { UserRepository } from './repositories/user.repository';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 

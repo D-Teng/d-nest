@@ -8,7 +8,7 @@ const config = {
   username: DB_USERNAME,
   password: DB_PASSWORD,
   database: DB_DATABASE,
-  entities: ['dist/modules/**/entity/*.js'],
+  entities: ['dist/modules/**/entities/*.js'],
   migrations: ['dist/database/migration/*.js'],
   cli: {
     migrationsDir: 'src/database/migration',

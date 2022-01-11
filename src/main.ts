@@ -61,9 +61,9 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-      exceptionFactory: (errors) => new UnprocessableEntityException(errors),
-      dismissDefaultMessages: true,
+      // errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+      // exceptionFactory: (errors) => new UnprocessableEntityException(errors),
+      // dismissDefaultMessages: true,
     }),
   );
 
@@ -81,7 +81,8 @@ async function bootstrap() {
   if (ENABLE_DOCUMENTATION) {
     setupSwagger(app);
   }
-
-  await app.listen(3000);
+  const port = configService.get<number>('APP_PORT');
+  await app.listen(port);
+  console.info(`app listening at: http://localhost:${port}`);
 }
 bootstrap();

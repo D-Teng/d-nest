@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
-import { CreateUserDto } from './dto/create-dto';
-import { UpdateDto } from './dto/update-dto';
-import { UserEntity } from './entity/user.entity';
+import { CreateUserDto } from './dtos/create-dto';
+import { UpdateDto } from './dtos/update-dto';
+import { UserEntity } from './entities/user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
