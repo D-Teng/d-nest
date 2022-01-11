@@ -18,8 +18,8 @@ export class UserEntity extends AbstractEntity {
   @Column({ nullable: true })
   lastName: string;
 
-  @Column('simple-array')
-  roles: string[];
+  @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
+  role: RoleType;
 
   @Column({
     nullable: true,

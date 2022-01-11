@@ -17,7 +17,7 @@ export class QueryFailedFilter implements ExceptionFilter<QueryFailedError> {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
-    console.log('QueryFailedError');
+    console.log('QueryFailedError', exception);
 
     const status = exception.constraint?.startsWith('UQ')
       ? HttpStatus.CONFLICT
