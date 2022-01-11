@@ -1,21 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import {
-  AbstractEntity,
-  IAbstractEntity,
-} from '../../../common/entity/abstract.entity';
-import { IUserEntity, UserEntity } from './user.entity';
-
-export interface IUserSettingsEntity extends IAbstractEntity {
-  isEmailVerified: boolean;
-  isPhoneVerified: boolean;
-  user: IUserEntity;
-}
+import { AbstractEntity } from '../../../common/entity/abstract.entity';
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'user_settings' })
-export class UserSettingsEntity
-  extends AbstractEntity
-  implements IUserSettingsEntity
-{
+export class UserSettingsEntity extends AbstractEntity {
   @Column({ default: false })
   isEmailVerified: boolean;
 
