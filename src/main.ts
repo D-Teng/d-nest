@@ -64,9 +64,9 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      // errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-      // exceptionFactory: (errors) => new UnprocessableEntityException(errors),
-      // dismissDefaultMessages: true,
+      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+      exceptionFactory: (errors) => new UnprocessableEntityException(errors),
+      dismissDefaultMessages: true,
     }),
   );
 

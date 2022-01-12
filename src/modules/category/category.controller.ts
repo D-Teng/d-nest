@@ -8,7 +8,15 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { IsNumber } from 'class-validator';
 import { CategoryService } from './category.service';
+import { CategoryDto } from './dtos/category.dto';
+
+class CategoryDtoChild extends CategoryDto {}
+
+function dtoFactory(...args: any[]) {
+  args.forEach((v) => {});
+}
 
 @Controller('category')
 @ApiTags('category')
@@ -26,7 +34,7 @@ export class CategoryController {
   }
 
   @Post()
-  post(@Body() params) {
-    return params;
+  post(@Body() categoryDto: CategoryDtoChild) {
+    return categoryDto;
   }
 }

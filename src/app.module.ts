@@ -10,11 +10,13 @@ import path from 'path';
 // import { RolesGuard } from './guards/roles.guard';
 import { ArticleModule } from './modules/article/article.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CategoryModule } from './modules/category/category.module';
 import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
     ArticleModule,
     AuthModule,
+    CategoryModule,
     UserModule,
     TypeOrmModule.forRoot(),
     ConfigModule.forRoot({
