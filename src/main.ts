@@ -19,6 +19,7 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { QueryFailedFilter } from './filters/query-failed.filter';
 import { UnprocessableEntityFilter } from './filters/unprocessableEntity-entity.filter';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { setupSwagger } from './setup-swagger';
 
 async function bootstrap() {
@@ -26,6 +27,8 @@ async function bootstrap() {
   initializeTransactionalContext();
   patchTypeORMRepositoryWithBaseRepository();
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // app.setGlobalPrefix('api');
 
   app.enable('trust proxy');
 

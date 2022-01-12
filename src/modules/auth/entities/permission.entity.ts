@@ -44,10 +44,10 @@ export class PermissionEntity extends AbstractEntity {
   @Column({
     comment: '排序',
   })
-  sort: number;
+  sortOrder: number;
 
   @Column({
-    comment: '父级id',
+    comment: '父级id,id=0代表根节点',
   })
   parentId: string;
 }

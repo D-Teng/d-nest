@@ -8,6 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { ResponseData } from 'src/common/response-data';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CreateUserDto } from './dtos/create-dto';
 import { UpdateDto } from './dtos/update-dto';
@@ -42,8 +43,9 @@ export class UserController {
   }
 
   @Get()
-  findAll(): Promise<UserEntity[]> {
-    return this.userService.findAll();
+  async findAll(): Promise<ResponseData<UserEntity[]>> {
+    const userEntities = await this.userService.findAll();
+    return ResponseData.buildSuccess(userEntities);
   }
 
   @Get(':id')
