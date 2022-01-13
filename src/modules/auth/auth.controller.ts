@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
+import { ResponseData } from 'src/common/response-data';
 import { Auth } from 'src/decorators/auth.decorator';
 import { User } from 'src/decorators/user.decorator';
 import { AuthService } from './auth.service';
@@ -37,7 +38,8 @@ export class AuthController {
     if (!user) {
       throw new UnauthorizedException();
     }
-    return this.authService.login(req.user);
+    const authToken = this.authService.login(req, req.user);
+    return ResponseData.buildSuccess(authToken);
   }
 
   @Get('role1')

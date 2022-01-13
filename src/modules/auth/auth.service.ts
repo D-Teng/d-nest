@@ -19,11 +19,8 @@ export class AuthService {
     return 'Hello auth ' + n;
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.id, role: user.role };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+  async login(req: any, user: any) {
+    return this.getAuthToken(req, user);
   }
 
   async validateUser(
@@ -36,5 +33,23 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async getAuthToken(req: any, user: any) {
+    const subject = { sub: user.id };
+
+    const payload = { username: user.username, role: user.role };
+
+    const authToken = {
+      refreshToken: this.jwtService.sign(subject, {
+        expiresIn: 1 * 60 * 60,
+      }),
+      accessToken: this.jwtService.sign(
+        { ...payload, ...subject },
+        { expiresIn: 2 * 60 * 60 },
+      ),
+    };
+
+    return authToken;
   }
 }
