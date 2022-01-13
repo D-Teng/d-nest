@@ -29,7 +29,7 @@ export class AuthService {
   async validateUser(
     username: string,
     password: string,
-  ): Promise<Omit<UserEntity, 'password' | 'fullName'>> {
+  ): Promise<Omit<UserEntity, 'password'>> {
     const user = await this.userService.findOneByUsername(username);
     if (user && user.password === password) {
       const { password, ...result } = user;

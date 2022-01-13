@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { BuildDto } from 'src/common/dto/base.dto';
-import { RoleType } from '../../../constants';
+import { ROLE_TYPE } from 'src/modules/auth/constants/role-type.constant';
 import { UserSettingsEntity } from '../entities/user-settings.entity';
 import { UserEntity } from '../entities/user.entity';
 
@@ -27,8 +27,8 @@ export class UserDto extends BuildDto<UserEntity> {
   @ApiPropertyOptional()
   lastName: string;
 
-  @ApiPropertyOptional({ enum: RoleType })
-  role: RoleType;
+  @ApiPropertyOptional({ enum: ROLE_TYPE })
+  role: ROLE_TYPE;
 
   @ApiPropertyOptional()
   email: string;

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { BaseEntity } from '../entity/base.entity';
 
 export class BuildDto<T> {
   constructor(entity: T, keys?: string[], skipEmpty: boolean = false) {
@@ -13,7 +14,7 @@ export class BuildDto<T> {
   }
 }
 
-export abstract class BaseDto<T> extends BuildDto<T> {
+export abstract class BaseDto<T extends BaseEntity> extends BuildDto<T> {
   @ApiProperty()
   id: string;
 

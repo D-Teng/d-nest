@@ -1,7 +1,7 @@
 import { AuthGuard as _AuthGuard } from '@nestjs/passport';
-import { JwtConstants } from 'src/constants';
+import { STRATEGY_JWT } from 'src/modules/auth/constants/strategy.constant';
 
 export function AuthGuard() {
-  const strategies = [JwtConstants.strategyName];
+  const strategies = [STRATEGY_JWT];
   return _AuthGuard(strategies);
 }

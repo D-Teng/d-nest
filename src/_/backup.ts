@@ -1,7 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
+import { ROLE_TYPE } from 'src/modules/auth/constants/role-type.constant';
 import { Column, Entity, OneToOne } from 'typeorm';
 import { BaseEntity } from '../common/entity/base.entity';
-import { RoleType } from '../constants';
 import { UserSettingsEntity } from '../modules/user/entities/user-settings.entity';
 
 @Entity({ name: 'user' })
@@ -17,8 +17,8 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: true })
   lastName: string;
 
-  @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
-  role: RoleType;
+  @Column({ type: 'enum', enum: ROLE_TYPE, default: ROLE_TYPE.USER })
+  role: ROLE_TYPE;
 
   @Column({
     nullable: true,
@@ -34,13 +34,6 @@ export class UserEntity extends BaseEntity {
 
   @Column({ nullable: true })
   avatar: string;
-
-  // fullName: string;
-
-  @Expose()
-  get fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
-  }
 
   @OneToOne(
     () => UserSettingsEntity,

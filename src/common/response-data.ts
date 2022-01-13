@@ -1,4 +1,4 @@
-import { Code, Message } from 'src/constants/http-response';
+import { Code, Message } from 'src/constants/http-response.constant';
 
 export class ResponseData<T> {
   code: number;

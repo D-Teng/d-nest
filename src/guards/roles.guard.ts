@@ -1,12 +1,12 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { RoleType } from 'src/constants';
-import { ROLES } from 'src/constants/metaData';
+import { ROLES } from 'src/modules/auth/constants/metadata.constant';
+import { ROLE_TYPE } from 'src/modules/auth/constants/role-type.constant';
 
 function matchRoles(
   user: any,
-  requiredRoles: RoleType[],
+  requiredRoles: ROLE_TYPE[],
 ): boolean | Promise<boolean> | Observable<boolean> {
   return requiredRoles.some((role) => user?.role === role);
 }
@@ -17,7 +17,7 @@ export class RolesGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const requiredRoles = this.reflector.getAllAndOverride<RoleType[]>(ROLES, [
+    const requiredRoles = this.reflector.getAllAndOverride<ROLE_TYPE[]>(ROLES, [
       context.getHandler(),
       context.getClass(),
     ]);

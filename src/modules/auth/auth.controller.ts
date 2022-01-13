@@ -10,10 +10,10 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { RoleType } from 'src/constants';
 import { Auth } from 'src/decorators/auth.decorator';
 import { User } from 'src/decorators/user.decorator';
 import { AuthService } from './auth.service';
+import { ROLE_TYPE } from './constants/role-type.constant';
 // import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
 
 // @UseInterceptors(LoggingInterceptor)
@@ -41,13 +41,13 @@ export class AuthController {
   }
 
   @Get('role1')
-  @Auth([RoleType.USER])
+  @Auth([ROLE_TYPE.USER])
   getRole1(@User('777') user: any): string {
     return 'role1';
   }
 
   @Get('role2')
-  @Auth([RoleType.USER])
+  @Auth([ROLE_TYPE.USER])
   // @HttpCode(HttpStatus.OK)
   getRole2(): string {
     return 'role2';
