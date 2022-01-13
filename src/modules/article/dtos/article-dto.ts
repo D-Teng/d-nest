@@ -1,12 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
-import { AbstractDto } from 'src/common/dto/abstract.dto';
+import { BaseDto } from 'src/common/dto/base.dto';
+import { ArticleEntity } from '../entities/article.entity';
 // IsEmail,
 // IsNotEmpty,
 // IsOptional,
 // IsPhoneNumber,
 // MinLength,
-export class ArticleDto extends AbstractDto {
+export class ArticleDto extends BaseDto<ArticleEntity> {
   @ApiProperty()
   @IsString()
   title: string;

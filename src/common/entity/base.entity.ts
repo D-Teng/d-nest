@@ -4,13 +4,15 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export abstract class AbstractEntity {
+export class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @CreateDateColumn({
     type: 'timestamp',
   })
   createdAt: Date;
+
   @UpdateDateColumn({
     type: 'timestamp',
   })

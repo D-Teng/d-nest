@@ -12,8 +12,10 @@ import { ResponseData } from 'src/common/response-data';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CreateUserDto } from './dtos/create-dto';
 import { UpdateDto } from './dtos/update-dto';
+import { UserDto, UserSettingsDto } from './dtos/retrieve.dto';
 import { UserEntity } from './entities/user.entity';
 import { UserService } from './user.service';
+import { UserSettingsEntity } from './entities/user-settings.entity';
 
 @Controller('user')
 @ApiTags('users')
@@ -43,9 +45,15 @@ export class UserController {
   }
 
   @Get()
-  async findAll(): Promise<ResponseData<UserEntity[]>> {
+  async findAll(): Promise<ResponseData<UserDto[]>> {
     const userEntities = await this.userService.findAll();
-    return ResponseData.buildSuccess(userEntities);
+    const UserDtos = userEntities.map((userEntity) => {
+      let userDto = new UserDto(userEntity);
+      const userSettingsDto = new UserSettingsDto(userEntity.settings);
+      userDto.settings = userSettingsDto;
+      return userDto;
+    });
+    return ResponseData.buildSuccess(UserDtos);
   }
 
   @Get(':id')

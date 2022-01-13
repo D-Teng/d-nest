@@ -1,10 +1,10 @@
-import { AbstractEntity } from 'src/common/entity/abstract.entity';
+import { BaseEntity } from 'src/common/entity/base.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity({
   name: 'permission',
 })
-export class PermissionEntity extends AbstractEntity {
+export class PermissionEntity extends BaseEntity {
   @Column({
     unique: true,
     length: '50',

@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { AbstractEntity } from '../../../common/entity/abstract.entity';
+import { BaseEntity } from '../../../common/entity/base.entity';
 import { UserEntity } from './user.entity';
 
 @Entity({ name: 'user_settings' })
-export class UserSettingsEntity extends AbstractEntity {
+export class UserSettingsEntity extends BaseEntity {
   @Column({ default: false })
   isEmailVerified: boolean;
 

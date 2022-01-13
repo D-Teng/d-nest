@@ -1,12 +1,12 @@
 import { Exclude, Expose } from 'class-transformer';
 import { ArticleEntity } from 'src/modules/article/entities/article.entity';
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
-import { AbstractEntity } from '../../../common/entity/abstract.entity';
+import { BaseEntity } from '../../../common/entity/base.entity';
 import { RoleType } from '../../../constants';
 import { UserSettingsEntity } from './user-settings.entity';
 
 @Entity({ name: 'user' })
-export class UserEntity extends AbstractEntity {
+export class UserEntity extends BaseEntity {
   @Column({
     unique: true,
   })

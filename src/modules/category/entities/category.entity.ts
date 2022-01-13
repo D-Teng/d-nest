@@ -1,8 +1,8 @@
-import { AbstractEntity } from 'src/common/entity/abstract.entity';
+import { BaseEntity } from 'src/common/entity/base.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'category' })
-export class CategoryEntity extends AbstractEntity {
+export class CategoryEntity extends BaseEntity {
   @Column({
     unique: true,
     length: '50',

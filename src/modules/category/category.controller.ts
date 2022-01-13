@@ -12,8 +12,6 @@ import { IsNumber } from 'class-validator';
 import { CategoryService } from './category.service';
 import { CategoryDto } from './dtos/category.dto';
 
-class CategoryDtoChild extends CategoryDto {}
-
 function dtoFactory(...args: any[]) {
   args.forEach((v) => {});
 }
@@ -34,7 +32,7 @@ export class CategoryController {
   }
 
   @Post()
-  post(@Body() categoryDto: CategoryDtoChild) {
+  post(@Body() categoryDto: CategoryDto) {
     return categoryDto;
   }
 }

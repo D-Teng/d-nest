@@ -1,10 +1,10 @@
-import { AbstractEntity } from 'src/common/entity/abstract.entity';
+import { BaseEntity } from 'src/common/entity/base.entity';
 import { CategoryEntity } from 'src/modules/category/entities/category.entity';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity({ name: 'article' })
-export class ArticleEntity extends AbstractEntity {
+export class ArticleEntity extends BaseEntity {
   @Column({
     comment: '文章标题',
   })

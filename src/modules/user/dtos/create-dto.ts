@@ -9,6 +9,16 @@ import {
   MinLength,
 } from 'class-validator';
 
+export class CreateSettingsDto {
+  @ApiProperty()
+  @IsBoolean()
+  isEmailVerified: boolean;
+
+  @ApiProperty()
+  @IsBoolean()
+  isPhoneVerified: boolean;
+}
+
 export class CreateUserDto {
   @ApiProperty()
   @IsString()
@@ -43,14 +53,4 @@ export class CreateUserDto {
   @IsPhoneNumber()
   @IsOptional()
   phone: string;
-}
-
-export class CreateSettingsDto {
-  @ApiProperty()
-  @IsBoolean()
-  isEmailVerified: boolean;
-
-  @ApiProperty()
-  @IsBoolean()
-  isPhoneVerified: boolean;
 }

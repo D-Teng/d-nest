@@ -10,7 +10,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AbstractDto } from 'src/common/dto/abstract.dto';
+import { BaseDto } from 'src/common/dto/base.dto';
 import { ArticleService } from './article.service';
 import { ArticleDto } from './dtos/article-dto';
 
@@ -36,7 +36,7 @@ export class ArticleController {
   }
 
   @Post()
-  async post(@Body() params: ArticleDto): Promise<AbstractDto> {
+  async post(@Body() params: ArticleDto): Promise<any> {
     // console.log(params);
     return params;
   }

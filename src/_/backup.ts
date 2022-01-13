@@ -1,11 +1,11 @@
 import { Exclude, Expose } from 'class-transformer';
 import { Column, Entity, OneToOne } from 'typeorm';
-import { AbstractEntity } from '../common/entity/abstract.entity';
+import { BaseEntity } from '../common/entity/base.entity';
 import { RoleType } from '../constants';
 import { UserSettingsEntity } from '../modules/user/entities/user-settings.entity';
 
 @Entity({ name: 'user' })
-export class UserEntity extends AbstractEntity {
+export class UserEntity extends BaseEntity {
   @Column({
     unique: true,
   })
