@@ -1,26 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BaseEntity } from '../entity/base.entity';
+import { Expose } from 'class-transformer';
 
-export class BuildDto<T> {
-  constructor(entity: T, keys?: string[], skipEmpty: boolean = false) {
-    if (!keys) {
-      Object.assign(this, entity);
-    } else {
-      keys.forEach((key) => {
-        if (skipEmpty && entity[key] === undefined) return;
-        this[key] = entity[key];
-      });
-    }
-  }
-}
+// export class BuildDto<T> {
+//   constructor(entity: T | T[]) {
+//     return plainToInstance(new.target, entity, {
+//       excludeExtraneousValues: true,
+//     });
+//   }
+// }
 
-export abstract class BaseDto<T extends BaseEntity> extends BuildDto<T> {
+export abstract class BaseDto {
   @ApiProperty()
+  @Expose()
   id: string;
 
   @ApiProperty()
+  @Expose()
   createdAt: Date;
 
   @ApiProperty()
+  @Expose()
   updatedAt: Date;
 }

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -7,6 +8,7 @@ import {
   IsPhoneNumber,
   IsString,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
 
 export class CreateSettingsDto {
@@ -53,4 +55,9 @@ export class CreateUserDto {
   @IsPhoneNumber()
   @IsOptional()
   phone: string;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => CreateSettingsDto)
+  settings: CreateSettingsDto;
 }

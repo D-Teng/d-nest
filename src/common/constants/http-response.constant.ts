@@ -3,5 +3,5 @@ export const enum Code {
 }
 
 export const enum Message {
-  OK = '成功',
+  OK = 'success',
 }

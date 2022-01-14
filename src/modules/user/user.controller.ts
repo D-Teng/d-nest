@@ -8,14 +8,13 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ResponseData } from 'src/common/response-data';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CreateUserDto } from './dtos/create-dto';
-import { UpdateDto } from './dtos/update-dto';
-import { UserDto, UserSettingsDto } from './dtos/retrieve.dto';
-import { UserEntity } from './entities/user.entity';
+import { UserDto } from './dtos/retrieve.dto';
+import { UpdateUserDto } from './dtos/update-dto';
 import { UserService } from './user.service';
-import { UserSettingsEntity } from './entities/user-settings.entity';
 
 @Controller('user')
 @ApiTags('users')
@@ -24,40 +23,45 @@ export class UserController {
 
   @Post()
   @Transactional()
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
-    const createdUser = await this.userService.create(createUserDto);
-    return createdUser;
+  async create(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<ResponseData<UserDto>> {
+    const res = await this.userService.create(createUserDto);
+    return ResponseData.buildSuccess(res);
   }
 
   @Delete(':id')
   @Transactional()
-  delete(@Param('id') id: string): Promise<string> {
-    return this.userService.delete(id);
+  async delete(@Param('id') id: string): Promise<ResponseData<string>> {
+    const res = await this.userService.delete(id);
+    return ResponseData.buildSuccess(res);
   }
 
   @Put(':id')
   @Transactional()
-  update(
+  async update(
     @Param('id') id: string,
-    @Body() updateDto: UpdateDto,
-  ): Promise<string> {
-    return this.userService.update(id, updateDto);
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<ResponseData<UserDto>> {
+    const res = await this.userService.update(id, updateUserDto);
+    return ResponseData.buildSuccess(res);
   }
 
   @Get()
   async findAll(): Promise<ResponseData<UserDto[]>> {
-    const userEntities = await this.userService.findAll();
-    const UserDtos = userEntities.map((userEntity) => {
-      let userDto = new UserDto(userEntity);
-      const userSettingsDto = new UserSettingsDto(userEntity.settings);
-      userDto.settings = userSettingsDto;
-      return userDto;
-    });
-    return ResponseData.buildSuccess(UserDtos);
+    const res = await this.userService.findAll();
+    return ResponseData.buildSuccess(res);
+  }
+
+  @Get('page/:offset/size/:limit')
+  async findPage(@Param() param: PaginationDto): Promise<ResponseData<any>> {
+    const res = await this.userService.findPage(param);
+    return ResponseData.buildSuccess(res);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<UserEntity> {
-    return this.userService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<ResponseData<UserDto>> {
+    const res = await this.userService.findOne(id);
+    return ResponseData.buildSuccess(res);
   }
 }

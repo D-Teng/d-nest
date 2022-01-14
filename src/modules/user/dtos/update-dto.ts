@@ -1,4 +1,5 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -7,7 +8,20 @@ import {
   IsPhoneNumber,
   IsString,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
+
+export class UpdateSettingsDto {
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  isEmailVerified: boolean;
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  isPhoneVerified: boolean;
+}
 
 export class UpdateUserDto {
   @ApiProperty()
@@ -40,32 +54,8 @@ export class UpdateUserDto {
   @IsOptional()
   phone: string;
 
-  constructor(params) {
-    ['firstName', 'lastName', 'email', 'password', 'phone'].forEach((v) => {
-      if (params[v]) this[v] = params[v];
-    });
-  }
-}
-
-export class UpdateSettingsDto {
-  @ApiProperty()
-  @IsBoolean()
   @IsOptional()
-  isEmailVerified: boolean;
-
-  @ApiProperty()
-  @IsBoolean()
-  @IsOptional()
-  isPhoneVerified: boolean;
-
-  constructor(params) {
-    ['isEmailVerified', 'isPhoneVerified'].forEach((v) => {
-      if (params[v]) this[v] = params[v];
-    });
-  }
+  @ValidateNested()
+  @Type(() => UpdateSettingsDto)
+  settings: UpdateSettingsDto;
 }
-
-export class UpdateDto extends IntersectionType(
-  UpdateUserDto,
-  UpdateSettingsDto,
-) {}

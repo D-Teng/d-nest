@@ -2,8 +2,8 @@ import { Code, Message } from 'src/common/constants/http-response.constant';
 
 export class ResponseData<T> {
   code: number;
-  message: string;
   data?: T;
+  message: string;
   static buildSuccess<T>(
     data: T,
     message: string = Message.OK,
@@ -16,7 +16,7 @@ export class ResponseData<T> {
   }
   constructor(code: number, message: string, data?: T) {
     this.code = code;
-    this.message = message;
     if (data !== undefined) this.data = data;
+    this.message = message;
   }
 }
