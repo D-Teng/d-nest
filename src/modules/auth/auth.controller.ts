@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { ResponseData } from 'src/common/response-data';
+import { ResponseBuilder } from 'src/common/response-builder';
 import { Auth } from 'src/decorators/auth.decorator';
 import { User } from 'src/decorators/user.decorator';
 import { AuthService } from './auth.service';
@@ -35,7 +35,7 @@ export class AuthController {
   @UseGuards(AuthGuard(STRATEGY_LOCAL))
   async login(@Request() req) {
     const authToken = await this.authService.login(req, req.user);
-    return ResponseData.buildSuccess(authToken);
+    return ResponseBuilder.buildSuccess(authToken);
   }
 
   @Get('role1')

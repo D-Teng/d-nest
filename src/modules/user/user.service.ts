@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationBuilder } from 'src/common/pagination-builder';
 import { Repository } from 'typeorm';
-import { CreateSettingsDto, CreateUserDto } from './dtos/create-dto';
+import { CreateSettingsDto, CreateUserDto } from './dtos/create.dto';
 import { UserDto } from './dtos/retrieve.dto';
-import { UpdateUserDto } from './dtos/update-dto';
+import { UpdateUserDto } from './dtos/update.dto';
 import { UserSettingsEntity } from './entities/user-settings.entity';
 import { UserEntity } from './entities/user.entity';
 
@@ -92,20 +93,14 @@ export class UserService {
   }
 
   async findPage(param: PaginationDto) {
-    const { page, size } = param;
-    let [userEntities, count] = await this.userRepository.findAndCount({
-      relations: ['settings'],
-      where: {},
-      take: size,
-      skip: (page - 1) * size,
-      order: {
-        createdAt: 'ASC',
+    const paginationBuilder = new PaginationBuilder<UserEntity>(
+      this.userRepository,
+      {
+        ...param,
+        relations: ['settings'],
       },
-    });
-    return {
-      data: userEntities,
-      count,
-    };
+    );
+    return paginationBuilder.build();
   }
 
   async findOne(id: string): Promise<UserDto> {

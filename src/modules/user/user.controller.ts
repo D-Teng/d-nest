@@ -10,12 +10,12 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { ResponseData } from 'src/common/response-data';
+import { ResponseBuilder } from 'src/common/response-builder';
 import { Auth } from 'src/decorators/auth.decorator';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
-import { CreateUserDto } from './dtos/create-dto';
+import { CreateUserDto } from './dtos/create.dto';
 import { UserDto } from './dtos/retrieve.dto';
-import { UpdateUserDto } from './dtos/update-dto';
+import { UpdateUserDto } from './dtos/update.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -25,7 +25,7 @@ export class UserController {
 
   @Get('profile')
   @Auth()
-  async getProfile(@Request() req): Promise<ResponseData<UserDto>> {
+  async getProfile(@Request() req): Promise<ResponseBuilder<UserDto>> {
     return this.findOne(req.user.id);
   }
 
@@ -33,16 +33,16 @@ export class UserController {
   @Transactional()
   async create(
     @Body() createUserDto: CreateUserDto,
-  ): Promise<ResponseData<UserDto>> {
+  ): Promise<ResponseBuilder<UserDto>> {
     const res = await this.userService.create(createUserDto);
-    return ResponseData.buildSuccess(res);
+    return ResponseBuilder.buildSuccess(res);
   }
 
   @Delete(':id')
   @Transactional()
-  async delete(@Param('id') id: string): Promise<ResponseData<string>> {
+  async delete(@Param('id') id: string): Promise<ResponseBuilder<string>> {
     const res = await this.userService.delete(id);
-    return ResponseData.buildSuccess(res);
+    return ResponseBuilder.buildSuccess(res);
   }
 
   @Put(':id')
@@ -50,26 +50,26 @@ export class UserController {
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<ResponseData<UserDto>> {
+  ): Promise<ResponseBuilder<UserDto>> {
     const res = await this.userService.update(id, updateUserDto);
-    return ResponseData.buildSuccess(res);
+    return ResponseBuilder.buildSuccess(res);
   }
 
   @Get()
-  async findAll(): Promise<ResponseData<UserDto[]>> {
+  async findAll(): Promise<ResponseBuilder<UserDto[]>> {
     const res = await this.userService.findAll();
-    return ResponseData.buildSuccess(res);
+    return ResponseBuilder.buildSuccess(res);
   }
 
   @Get('page/:page/size/:size')
-  async findPage(@Param() param: PaginationDto): Promise<ResponseData<any>> {
+  async findPage(@Param() param: PaginationDto): Promise<ResponseBuilder<any>> {
     const res = await this.userService.findPage(param);
-    return ResponseData.buildSuccess(res);
+    return ResponseBuilder.buildSuccess(res);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<ResponseData<UserDto>> {
+  async findOne(@Param('id') id: string): Promise<ResponseBuilder<UserDto>> {
     const res = await this.userService.findOne(id);
-    return ResponseData.buildSuccess(res);
+    return ResponseBuilder.buildSuccess(res);
   }
 }

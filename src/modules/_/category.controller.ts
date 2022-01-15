@@ -8,7 +8,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ResponseBuilder } from 'src/common/response-builder';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dtos/create.dto';
@@ -19,20 +18,14 @@ import { CategoryDto } from './dtos/retrieve.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
   @Get()
-  async get(): Promise<ResponseBuilder<CategoryDto[]>> {
-    const res = [];
-    return ResponseBuilder.buildSuccess(res);
+  get() {
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    // return '123';
   }
 
   @Get(':id')
   getById(@Param('id') id: string) {
     return id;
-  }
-
-  @Get('page/:page/size/:size')
-  async findPage(@Param() param: PaginationDto) {
-    const res = await this.categoryService.findPage(param);
-    return ResponseBuilder.buildSuccess(res);
   }
 
   @Post()
