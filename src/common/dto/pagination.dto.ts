@@ -1,12 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsInt, Min } from 'class-validator';
 
 export abstract class PaginationDto {
   @ApiProperty()
-  @IsString()
-  limit: string;
+  @IsInt()
+  @Min(1)
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  page: number;
 
   @ApiProperty()
-  @IsString()
-  offset: string;
+  @IsInt()
+  @Min(1)
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  size: number;
 }

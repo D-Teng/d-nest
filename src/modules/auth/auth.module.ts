@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { SharedModule } from '../shared/shared.module';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -11,12 +12,19 @@ import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
-    ConfigModule,
+    SharedModule,
     UserModule,
     PassportModule,
-    JwtModule.register({
-      secret: SECRET,
-      signOptions: { expiresIn: '10h' },
+    // https://github.com/auth0/node-jsonwebtoken#usage
+    JwtModule.registerAsync({
+      imports: [SharedModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: SECRET,
+        signOptions: {
+          expiresIn: `${configService.get<string>('jwt.expiresInH')}h`,
+        },
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AuthController],

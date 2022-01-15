@@ -5,12 +5,23 @@ import {
   UnprocessableEntityException,
   ValidationPipe,
 } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
-import { QueryFailedFilter } from 'src/filters/query-failed.filter';
-import { UnprocessableEntityFilter } from 'src/filters/unprocessableEntity-entity.filter';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import path from 'path';
+import { configModuleOptions } from 'src/config/module-options';
+import { AllExceptionFilter } from 'src/filters/all-exception.filter';
 
 @Module({
+  imports: [
+    ConfigModule.forRoot(configModuleOptions),
+    TypeOrmModule.forRoot(),
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(process.cwd(), 'public'),
+    }),
+  ],
+  exports: [ConfigModule],
   providers: [
     {
       provide: APP_INTERCEPTOR,
@@ -28,15 +39,7 @@ import { UnprocessableEntityFilter } from 'src/filters/unprocessableEntity-entit
     },
     {
       provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: UnprocessableEntityFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: QueryFailedFilter,
+      useClass: AllExceptionFilter,
     },
   ],
 })

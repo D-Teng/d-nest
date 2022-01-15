@@ -24,10 +24,9 @@ export class UserService {
     const user = this.userRepository.create(userDto);
     user.settings = _settings;
     await this.userRepository.save(user);
-    const _userDto = plainToInstance(UserDto, user, {
+    return plainToInstance(UserDto, user, {
       excludeExtraneousValues: true,
     });
-    return _userDto;
   }
 
   async createSettings(
@@ -49,45 +48,59 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<UserDto> {
-    const { settings, ...userDto } = updateUserDto;
-    await this.userSettingsRepository.update(
+    const { settings, ...user } = await this.userRepository.findOne(
+      { id },
       {
-        user: {
-          id,
-        },
+        relations: ['settings'],
       },
-      settings,
     );
-    await this.userRepository.update(id, userDto);
-    const _userDto = plainToInstance(
+    const { settings: _settings, ..._user } = updateUserDto;
+
+    if (_settings) {
+      await this.userSettingsRepository.update(
+        {
+          user: {
+            id,
+          },
+        },
+        _settings,
+      );
+    }
+
+    await this.userRepository.update(id, _user);
+
+    return plainToInstance(
       UserDto,
       {
-        id,
-        ...updateUserDto,
+        ...user,
+        ..._user,
+        settings: { ...settings, ..._settings },
       },
       {
         excludeExtraneousValues: true,
       },
     );
-    return _userDto;
   }
 
   async findAll(): Promise<UserDto[]> {
     const userEntities = await this.userRepository.find({
       relations: ['settings'],
     });
-    const userDtos = plainToInstance(UserDto, userEntities, {
+    return plainToInstance(UserDto, userEntities, {
       excludeExtraneousValues: true,
     });
-    return userDtos;
   }
 
   async findPage(param: PaginationDto) {
-    const { limit, offset } = param;
+    const { page, size } = param;
     let [userEntities, count] = await this.userRepository.findAndCount({
+      relations: ['settings'],
       where: {},
-      take: parseInt(limit),
-      skip: parseInt(offset),
+      take: size,
+      skip: (page - 1) * size,
+      order: {
+        createdAt: 'ASC',
+      },
     });
     return {
       data: userEntities,
@@ -102,10 +115,10 @@ export class UserService {
         relations: ['settings'],
       },
     );
-    const userDto = plainToInstance(UserDto, userEntity, {
+    console.log('userEntity', userEntity);
+    return plainToInstance(UserDto, userEntity, {
       excludeExtraneousValues: true,
     });
-    return userDto;
   }
 
   async findOneByUsername(username: string): Promise<UserEntity> {

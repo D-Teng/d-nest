@@ -16,6 +16,7 @@ export class UnprocessableEntityFilter
   constructor(public reflector: Reflector) {}
 
   catch(exception: UnprocessableEntityException, host: ArgumentsHost): void {
+    console.log('UnprocessableEntityException', exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const statusCode = exception.getStatus();

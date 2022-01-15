@@ -8,8 +8,8 @@ import { UserService } from '../user/user.service';
 export class AuthService {
   constructor(
     private readonly configService: ConfigService,
-    private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly userService: UserService,
   ) {
     console.log('AuthService');
   }
@@ -42,11 +42,11 @@ export class AuthService {
 
     const authToken = {
       refreshToken: this.jwtService.sign(subject, {
-        expiresIn: 1 * 60 * 60,
+        expiresIn: this.configService.get('jwt.refreshTokenExpiresInSec'),
       }),
       accessToken: this.jwtService.sign(
         { ...payload, ...subject },
-        { expiresIn: 2 * 60 * 60 },
+        { expiresIn: this.configService.get('jwt.accessTokenExpiresInSec') },
       ),
     };
 

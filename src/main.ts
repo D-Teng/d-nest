@@ -1,4 +1,4 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import compression from 'compression';
@@ -39,7 +39,7 @@ async function bootstrap() {
 
   app.use(morgan('combined'));
 
-  const configService = app.select(ConfigModule).get(ConfigService);
+  const configService = app.get(ConfigService);
 
   const ENABLE_DOCUMENTATION = configService.get<string>(
     'ENABLE_DOCUMENTATION',

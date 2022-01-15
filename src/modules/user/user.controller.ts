@@ -6,10 +6,12 @@ import {
   Param,
   Post,
   Put,
+  Request,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ResponseData } from 'src/common/response-data';
+import { Auth } from 'src/decorators/auth.decorator';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CreateUserDto } from './dtos/create-dto';
 import { UserDto } from './dtos/retrieve.dto';
@@ -20,6 +22,12 @@ import { UserService } from './user.service';
 @ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('profile')
+  @Auth()
+  async getProfile(@Request() req): Promise<ResponseData<UserDto>> {
+    return this.findOne(req.user.id);
+  }
 
   @Post()
   @Transactional()
@@ -53,7 +61,7 @@ export class UserController {
     return ResponseData.buildSuccess(res);
   }
 
-  @Get('page/:offset/size/:limit')
+  @Get('page/:page/size/:size')
   async findPage(@Param() param: PaginationDto): Promise<ResponseData<any>> {
     const res = await this.userService.findPage(param);
     return ResponseData.buildSuccess(res);

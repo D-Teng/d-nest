@@ -15,12 +15,12 @@ import { Auth } from 'src/decorators/auth.decorator';
 import { User } from 'src/decorators/user.decorator';
 import { AuthService } from './auth.service';
 import { ROLE_TYPE } from './constants/role-type.constant';
+import { STRATEGY_LOCAL } from './constants/strategy.constant';
 // import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
 
 // @UseInterceptors(LoggingInterceptor)
 @Controller('auth')
 @ApiTags('auth')
-// @Auth()
 export class AuthController {
   constructor(private readonly authService: AuthService) {
     console.log('AuthController');
@@ -32,13 +32,9 @@ export class AuthController {
   }
 
   @Post('login')
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(AuthGuard(STRATEGY_LOCAL))
   async login(@Request() req) {
-    const user = req.user;
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-    const authToken = this.authService.login(req, req.user);
+    const authToken = await this.authService.login(req, req.user);
     return ResponseData.buildSuccess(authToken);
   }
 
@@ -50,7 +46,6 @@ export class AuthController {
 
   @Get('role2')
   @Auth([ROLE_TYPE.USER])
-  // @HttpCode(HttpStatus.OK)
   getRole2(): string {
     return 'role2';
   }
