@@ -41,13 +41,14 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
 
+  const port = configService.get<number>('APP_PORT');
+
   const ENABLE_DOCUMENTATION = configService.get<string>(
     'ENABLE_DOCUMENTATION',
   );
   if (ENABLE_DOCUMENTATION) {
-    setupSwagger(app);
+    setupSwagger(app, port);
   }
-  const port = configService.get<number>('APP_PORT');
   await app.listen(port);
   console.info(`app listening at: http://localhost:${port}`);
 }

@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  UsePipes,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseDto } from 'src/common/dto/base.dto';

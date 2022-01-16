@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-export function setupSwagger(app: INestApplication) {
+export function setupSwagger(app: INestApplication, port: number) {
   const options = new DocumentBuilder()
     .setTitle('API')
     .addBearerAuth()
@@ -13,5 +13,5 @@ export function setupSwagger(app: INestApplication) {
       persistAuthorization: true,
     },
   });
-  console.info(`Documentation: http://localhost:${3000}/api`);
+  console.info(`swagger listen at: http://localhost:${port}/api`);
 }

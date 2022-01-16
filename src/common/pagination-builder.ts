@@ -5,9 +5,7 @@ import { PaginationOutputDto } from './dto/pagination.dto';
 export interface PaginationOptions {
   page: number;
   size: number;
-  where?: any;
   order?: any;
-  relations?: any;
 }
 
 export class PaginationBuilder<T> {
@@ -16,23 +14,17 @@ export class PaginationBuilder<T> {
   size: number;
   options: FindManyOptions<T>;
   constructor(repository: Repository<T>, options: PaginationOptions) {
-    let {
-      page,
-      size,
-      where = {},
-      order = { createdAt: 'ASC' },
-      ...others
-    } = options;
+    let { page, size, order = { createdAt: 'ASC' }, ...others } = options;
     this.page = page;
     this.size = size;
     this.repository = repository;
     this.options = {
-      where: where,
       take: size,
       skip: (page - 1) * size,
       order: order,
       ...others,
     };
+    // console.log('PaginationBuilder', this.options);
   }
   async build(): Promise<PaginationOutputDto<T>> {
     let [data, count] = await this.repository.findAndCount(this.options);

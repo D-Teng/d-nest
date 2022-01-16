@@ -13,7 +13,7 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dtos/create.dto';
 import { CategoryDto } from './dtos/retrieve.dto';
 
-@Controller('category')
+@Controller('——category')
 @ApiTags('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}

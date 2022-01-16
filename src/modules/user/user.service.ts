@@ -93,12 +93,13 @@ export class UserService {
   }
 
   async findPage(param: PaginationInputDto) {
+    const options = {
+      ...param,
+      relations: ['settings'],
+    };
     const paginationBuilder = new PaginationBuilder<UserEntity>(
       this.userRepository,
-      {
-        ...param,
-        relations: ['settings'],
-      },
+      options,
     );
     return paginationBuilder.build();
   }

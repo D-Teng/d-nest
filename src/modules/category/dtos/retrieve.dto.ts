@@ -22,7 +22,7 @@ export class CategoryDto extends BaseDto {
   parentId: string;
 }
 
-export class CategorySearchOptionsDto extends PaginationInputDto {
+export class CategorySearchDto extends PaginationInputDto {
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
