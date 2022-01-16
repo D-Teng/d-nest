@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationInputDto } from 'src/common/dto/pagination.dto';
 import { PaginationBuilder } from 'src/common/pagination-builder';
 import { Repository } from 'typeorm';
 import { CreateSettingsDto, CreateUserDto } from './dtos/create.dto';
@@ -92,7 +92,7 @@ export class UserService {
     });
   }
 
-  async findPage(param: PaginationDto) {
+  async findPage(param: PaginationInputDto) {
     const paginationBuilder = new PaginationBuilder<UserEntity>(
       this.userRepository,
       {

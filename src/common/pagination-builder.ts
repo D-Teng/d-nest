@@ -1,6 +1,8 @@
+import { plainToInstance } from 'class-transformer';
 import { FindManyOptions, Repository } from 'typeorm';
+import { PaginationOutputDto } from './dto/pagination.dto';
 
-interface PaginationOptions {
+export interface PaginationOptions {
   page: number;
   size: number;
   where?: any;
@@ -32,15 +34,14 @@ export class PaginationBuilder<T> {
       ...others,
     };
   }
-  async build() {
+  async build(): Promise<PaginationOutputDto<T>> {
     let [data, count] = await this.repository.findAndCount(this.options);
     let { page, size } = this;
-    return {
+    return plainToInstance(PaginationOutputDto, {
       data,
       count,
       page,
       size,
-      totalPage: Math.ceil(count / size),
-    };
+    });
   }
 }

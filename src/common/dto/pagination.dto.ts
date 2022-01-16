@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
-import { IsInt, IsPositive } from 'class-validator';
+import { Expose, Transform } from 'class-transformer';
+import { IsInt, IsOptional, IsPositive } from 'class-validator';
 
-export abstract class PaginationDto {
+export class PaginationInputDto {
   @ApiProperty()
   @IsInt()
   @IsPositive()
@@ -14,4 +14,19 @@ export abstract class PaginationDto {
   @IsPositive()
   @Transform(({ value }) => Number(value), { toClassOnly: true })
   size: number;
+}
+
+export class PaginationOutputDto<T> {
+  data: T[];
+
+  count: number;
+
+  page: number;
+
+  size: number;
+
+  @Expose()
+  get totalPages() {
+    return Math.ceil(this.count / this.size);
+  }
 }

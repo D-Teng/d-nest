@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationInputDto } from 'src/common/dto/pagination.dto';
 import { PaginationBuilder } from 'src/common/pagination-builder';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dtos/create.dto';
-import { CategoryDto } from './dtos/retrieve.dto';
+import { CategoryDto, CategorySearchOptionsDto } from './dtos/retrieve.dto';
 import { CategoryEntity } from './entities/category.entity';
 
 @Injectable()
@@ -21,7 +21,8 @@ export class CategoryService {
       excludeExtraneousValues: true,
     });
   }
-  async findPage(param: PaginationDto) {
+  async findPage(param) {
+    console.log('findPage', param);
     const paginationBuilder = new PaginationBuilder<CategoryEntity>(
       this.categoryRepository,
       param,

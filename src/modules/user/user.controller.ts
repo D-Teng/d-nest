@@ -9,7 +9,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationInputDto } from 'src/common/dto/pagination.dto';
 import { ResponseBuilder } from 'src/common/response-builder';
 import { Auth } from 'src/decorators/auth.decorator';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
@@ -62,7 +62,9 @@ export class UserController {
   }
 
   @Get('page/:page/size/:size')
-  async findPage(@Param() param: PaginationDto): Promise<ResponseBuilder<any>> {
+  async findPage(
+    @Param() param: PaginationInputDto,
+  ): Promise<ResponseBuilder<any>> {
     const res = await this.userService.findPage(param);
     return ResponseBuilder.buildSuccess(res);
   }

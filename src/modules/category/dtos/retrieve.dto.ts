@@ -1,6 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
+import { IsOptional, IsString } from 'class-validator';
 import { BaseDto } from 'src/common/dto/base.dto';
+import { PaginationInputDto } from 'src/common/dto/pagination.dto';
 
 export class CategoryDto extends BaseDto {
   @ApiProperty()
@@ -18,4 +20,23 @@ export class CategoryDto extends BaseDto {
   @ApiPropertyOptional()
   @Expose()
   parentId: string;
+}
+
+export class CategorySearchOptionsDto extends PaginationInputDto {
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  @Transform(({ value }) => String(value), { toClassOnly: true })
+  id: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  name: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  @Transform(({ value }) => String(value), { toClassOnly: true })
+  status: string;
 }
