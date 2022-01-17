@@ -12,6 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import path from 'path';
 import { configModuleOptions } from 'src/config/module-options';
 import { AllExceptionFilter } from 'src/filters/all-exception.filter';
+// import { TestPipe } from 'src/pipes/test.pipe';
 
 @Module({
   imports: [
@@ -27,6 +28,10 @@ import { AllExceptionFilter } from 'src/filters/all-exception.filter';
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     },
+    // {
+    //   provide: APP_PIPE,
+    //   useValue: new TestPipe(),
+    // },
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({
@@ -34,7 +39,7 @@ import { AllExceptionFilter } from 'src/filters/all-exception.filter';
         transform: true,
         errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         exceptionFactory: (errors) => new UnprocessableEntityException(errors),
-        dismissDefaultMessages: true,
+        // dismissDefaultMessages: true,
       }),
     },
     {

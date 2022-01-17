@@ -6,10 +6,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Request,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PaginationInputDto } from 'src/common/dto/pagination.dto';
+import {
+  PaginationInputDto,
+  PaginationOutputDto,
+} from 'src/common/dto/pagination.dto';
 import { ResponseBuilder } from 'src/common/response-builder';
 import { Auth } from 'src/decorators/auth.decorator';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
@@ -22,12 +26,6 @@ import { UserService } from './user.service';
 @ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  @Get('profile')
-  @Auth()
-  async getProfile(@Request() req): Promise<ResponseBuilder<UserDto>> {
-    return this.findOne(req.user.id);
-  }
 
   @Post()
   @Transactional()
@@ -55,17 +53,23 @@ export class UserController {
     return ResponseBuilder.buildSuccess(res);
   }
 
+  @Get('profile')
+  @Auth()
+  async getProfile(@Request() req): Promise<ResponseBuilder<UserDto>> {
+    return this.findOne(req.user.id);
+  }
+
   @Get()
   async findAll(): Promise<ResponseBuilder<UserDto[]>> {
     const res = await this.userService.findAll();
     return ResponseBuilder.buildSuccess(res);
   }
 
-  @Get('page/:page/size/:size')
+  @Get('list')
   async findPage(
-    @Param() param: PaginationInputDto,
-  ): Promise<ResponseBuilder<any>> {
-    const res = await this.userService.findPage(param);
+    @Query() query: PaginationInputDto,
+  ): Promise<ResponseBuilder<PaginationOutputDto<UserDto>>> {
+    const res = await this.userService.findPage(query);
     return ResponseBuilder.buildSuccess(res);
   }
 

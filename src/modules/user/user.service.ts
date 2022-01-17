@@ -82,9 +82,9 @@ export class UserService {
     return new DtoBuilder(UserDto).build(userEntities);
   }
 
-  async findPage(param: PaginationInputDto) {
+  async findPage(query: PaginationInputDto) {
     const options = {
-      ...param,
+      ...query,
       relations: ['settings'],
     };
     const paginationBuilder = new PaginationBuilder<UserEntity>(
