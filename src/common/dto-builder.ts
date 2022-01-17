@@ -14,9 +14,9 @@ export class DtoBuilder<T> {
     this.options = options ?? { excludeExtraneousValues: true };
   }
 
-  async build(plain: Array<unknown>): Promise<T[]>;
-  async build(plain: unknown): Promise<T>;
-  async build(plain: unknown): Promise<unknown> {
+  build(plain: Array<unknown>): T[];
+  build(plain: unknown): T;
+  build(plain: unknown): unknown {
     return plainToInstance(this.cls, plain, this.options);
   }
 
@@ -47,9 +47,9 @@ export class DtoBuilder<T> {
     };
   }
 
-  async buildResponse(plain: Array<unknown>): Promise<ResponseBuilder<T[]>>;
-  async buildResponse(plain: unknown): Promise<ResponseBuilder<T>>;
-  async buildResponse(plain: unknown): Promise<unknown> {
+  buildResponse(plain: Array<unknown>): ResponseBuilder<T[]>;
+  buildResponse(plain: unknown): ResponseBuilder<T>;
+  buildResponse(plain: unknown): unknown {
     return ResponseBuilder.buildSuccess(this.build(plain));
   }
 }

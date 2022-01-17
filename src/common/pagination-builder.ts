@@ -42,8 +42,11 @@ export class PaginationBuilder<T> {
     let [data, count] = await this.repository.findAndCount(this.options);
     let { page, size } = this;
 
-    return new DtoBuilder<PaginationOutputDto<K>>(PaginationOutputDto).build({
-      data: new DtoBuilder(cls).build(data),
+    return new DtoBuilder<PaginationOutputDto<K>>(
+      PaginationOutputDto,
+      {},
+    ).build({
+      data: new DtoBuilder(cls, {}).build(data),
       count,
       page,
       size,
