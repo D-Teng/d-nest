@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { plainToInstance } from 'class-transformer';
+import { DtoBuilder } from 'src/common/dto-builder';
 import { PaginationInputDto } from 'src/common/dto/pagination.dto';
 import { PaginationBuilder } from 'src/common/pagination-builder';
 import { Repository } from 'typeorm';
@@ -25,9 +25,7 @@ export class UserService {
     const user = this.userRepository.create(userDto);
     user.settings = _settings;
     await this.userRepository.save(user);
-    return plainToInstance(UserDto, user, {
-      excludeExtraneousValues: true,
-    });
+    return new DtoBuilder(UserDto).build(user);
   }
 
   async createSettings(
@@ -70,26 +68,18 @@ export class UserService {
 
     await this.userRepository.update(id, _user);
 
-    return plainToInstance(
-      UserDto,
-      {
-        ...user,
-        ..._user,
-        settings: { ...settings, ..._settings },
-      },
-      {
-        excludeExtraneousValues: true,
-      },
-    );
+    return new DtoBuilder(UserDto).build({
+      ...user,
+      ..._user,
+      settings: { ...settings, ..._settings },
+    });
   }
 
   async findAll(): Promise<UserDto[]> {
     const userEntities = await this.userRepository.find({
       relations: ['settings'],
     });
-    return plainToInstance(UserDto, userEntities, {
-      excludeExtraneousValues: true,
-    });
+    return new DtoBuilder(UserDto).build(userEntities);
   }
 
   async findPage(param: PaginationInputDto) {
@@ -101,7 +91,7 @@ export class UserService {
       this.userRepository,
       options,
     );
-    return paginationBuilder.build();
+    return paginationBuilder.build(UserDto);
   }
 
   async findOne(id: string): Promise<UserDto> {
@@ -111,10 +101,7 @@ export class UserService {
         relations: ['settings'],
       },
     );
-    console.log('userEntity', userEntity);
-    return plainToInstance(UserDto, userEntity, {
-      excludeExtraneousValues: true,
-    });
+    return new DtoBuilder(UserDto).build(userEntity);
   }
 
   async findOneByUsername(username: string): Promise<UserEntity> {

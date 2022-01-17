@@ -1,11 +1,11 @@
-import { plainToInstance } from 'class-transformer';
 import { FindManyOptions, Repository } from 'typeorm';
+import { DtoBuilder } from './dto-builder';
 import { PaginationOutputDto } from './dto/pagination.dto';
+import { ClassConstructor } from './types/class-constructor.type';
 
-export interface PaginationOptions {
+export interface PaginationOptions<T> extends FindManyOptions<T> {
   page: number;
   size: number;
-  order?: any;
 }
 
 export class PaginationBuilder<T> {
@@ -13,7 +13,8 @@ export class PaginationBuilder<T> {
   page: number;
   size: number;
   options: FindManyOptions<T>;
-  constructor(repository: Repository<T>, options: PaginationOptions) {
+
+  constructor(repository: Repository<T>, options: PaginationOptions<T>) {
     let { page, size, order = { createdAt: 'ASC' }, ...others } = options;
     this.page = page;
     this.size = size;
@@ -24,13 +25,25 @@ export class PaginationBuilder<T> {
       order: order,
       ...others,
     };
-    // console.log('PaginationBuilder', this.options);
   }
-  async build(): Promise<PaginationOutputDto<T>> {
+
+  async _build(): Promise<Omit<PaginationOutputDto<T>, 'totalPages'>> {
     let [data, count] = await this.repository.findAndCount(this.options);
     let { page, size } = this;
-    return plainToInstance(PaginationOutputDto, {
+    return {
       data,
+      count,
+      page,
+      size,
+    };
+  }
+
+  async build<K>(cls: ClassConstructor<K>): Promise<PaginationOutputDto<K>> {
+    let [data, count] = await this.repository.findAndCount(this.options);
+    let { page, size } = this;
+
+    return new DtoBuilder<PaginationOutputDto<K>>(PaginationOutputDto).build({
+      data: new DtoBuilder(cls).build(data),
       count,
       page,
       size,
