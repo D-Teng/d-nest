@@ -104,6 +104,16 @@ export class UserService {
     return new DtoBuilder(UserDto).build(userEntity);
   }
 
+  async findById(id: string): Promise<UserEntity> {
+    const userEntity = await this.userRepository.findOne(
+      { id },
+      {
+        relations: ['settings'],
+      },
+    );
+    return userEntity;
+  }
+
   async findOneByUsername(username: string): Promise<UserEntity> {
     return this.userRepository.findOne(
       {

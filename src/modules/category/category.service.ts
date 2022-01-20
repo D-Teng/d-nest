@@ -67,4 +67,9 @@ export class CategoryService {
     const categoryEntity = await this.categoryRepository.findOne({ id });
     return new DtoBuilder(CategoryDto).build(categoryEntity);
   }
+
+  async findById(id: string): Promise<CategoryEntity> {
+    const categoryEntity = await this.categoryRepository.findOne({ id });
+    return categoryEntity;
+  }
 }

@@ -1,4 +1,4 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 import { ArticleEntity } from 'src/modules/article/entities/article.entity';
 import { ROLE_TYPE } from 'src/modules/auth/constants/role-type.constant';
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';

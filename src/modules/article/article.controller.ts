@@ -1,42 +1,31 @@
-import {
-  Body,
-  CacheKey,
-  CacheTTL,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BaseDto } from 'src/common/dto/base.dto';
+import { ResponseBuilder } from 'src/common/response-builder';
+import { Auth } from 'src/decorators/auth.decorator';
+import { Transactional } from 'typeorm-transactional-cls-hooked';
+import { ROLE_TYPE } from '../auth/constants/role-type.constant';
 import { ArticleService } from './article.service';
 import { ArticleDto } from './dtos/article-dto';
+import { CreateArticleDto } from './dtos/create.dto';
 
 @Controller('article')
 @ApiTags('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
+
   @Get()
-  @CacheKey('custom_key')
-  @CacheTTL(20)
   get() {
-    return 'article';
-  }
-
-  @Get(':id')
-  getById(@Param('id') id: string) {
-    return id;
-  }
-
-  @Put(':id')
-  putById(@Param('id') id: string, @Body() params: ArticleDto) {
-    return id;
+    return 'Get';
   }
 
   @Post()
-  async post(@Body() params: ArticleDto): Promise<any> {
-    // console.log(params);
-    return params;
+  @Transactional()
+  @Auth([ROLE_TYPE.USER])
+  async create(
+    @Req() request,
+    @Body() createArticleDto: CreateArticleDto,
+  ): Promise<ResponseBuilder<ArticleDto>> {
+    const res = await this.articleService.create(request, createArticleDto);
+    return ResponseBuilder.buildSuccess(res);
   }
 }

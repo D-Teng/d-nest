@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { Expose } from 'class-transformer';
+import { IsString } from 'class-validator';
 // IsEmail,
 // IsNotEmpty,
 // IsOptional,
@@ -8,18 +9,26 @@ import { IsNumber, IsString } from 'class-validator';
 export class ArticleDto {
   @ApiProperty()
   @IsString()
+  @Expose()
   title: string;
 
   @ApiProperty()
+  @Expose()
   keyword: string;
 
   @ApiProperty()
+  @Expose()
   content: string;
 
   @ApiProperty()
+  @Expose()
   description: string;
 
   @ApiProperty()
-  @IsNumber()
+  @Expose()
   type: number;
+
+  @ApiProperty()
+  @Expose()
+  authorId: string;
 }

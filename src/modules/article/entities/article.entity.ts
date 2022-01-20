@@ -11,21 +11,25 @@ export class ArticleEntity extends BaseEntity {
   title: string;
 
   @Column({
+    default: '',
     comment: '文章简介',
   })
   description: string;
 
   @Column({
+    nullable: true,
     comment: '文章封面图',
   })
   coverUrl: string;
 
   @Column({
+    default: '',
     comment: '文章内容',
   })
-  context: string;
+  content: string;
 
   @Column({
+    default: '',
     comment: '文章关键字',
   })
   keywords: string;
@@ -37,16 +41,19 @@ export class ArticleEntity extends BaseEntity {
   status: number;
 
   @Column({
+    default: 1,
     comment: '排序',
   })
   sortOrder: number;
 
   @Column({
+    default: 0,
     comment: '浏览次数',
   })
   browses: number;
 
   @Column({
+    default: 0,
     comment: '点赞次数',
   })
   likes: number;
