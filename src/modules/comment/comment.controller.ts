@@ -4,14 +4,14 @@ import { ResponseBuilder } from 'src/common/response-builder';
 import { Auth } from 'src/decorators/auth.decorator';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { ROLE_TYPE } from '../auth/constants/role-type.constant';
-import { ArticleService } from './article.service';
-import { CreateArticleDto } from './dtos/create.dto';
-import { ArticleDto } from './dtos/retrieve-dto';
+import { CommentService } from './comment.service';
+import { CreateCommentDto } from './dtos/create.dto';
+import { CommentDto } from './dtos/retrieve-dto';
 
-@Controller('article')
-@ApiTags('article')
-export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+@Controller('comment')
+@ApiTags('comment')
+export class CommentController {
+  constructor(private readonly commentService: CommentService) {}
 
   @Get()
   get() {
@@ -23,9 +23,9 @@ export class ArticleController {
   @Auth([ROLE_TYPE.USER])
   async create(
     @Req() request,
-    @Body() createArticleDto: CreateArticleDto,
-  ): Promise<ResponseBuilder<ArticleDto>> {
-    const res = await this.articleService.create(request, createArticleDto);
+    @Body() createCommentDto: CreateCommentDto,
+  ): Promise<ResponseBuilder<CommentDto>> {
+    const res = await this.commentService.create(request, createCommentDto);
     return ResponseBuilder.buildSuccess(res);
   }
 }

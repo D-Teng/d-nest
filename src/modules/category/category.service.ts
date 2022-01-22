@@ -16,9 +16,18 @@ export class CategoryService {
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto): Promise<CategoryDto> {
-    const category = this.categoryRepository.create(createCategoryDto);
-    await this.categoryRepository.save(category);
-    return new DtoBuilder(CategoryDto).build(category);
+    const { parentId, ...category } = createCategoryDto;
+    const categoryEntity = this.categoryRepository.create(category);
+    if (parentId) {
+      const parentEntity = await this.findById(parentId);
+      categoryEntity.parent = parentEntity;
+    }
+    await this.categoryRepository.save(categoryEntity);
+    const { parent: _parent, ..._category } = categoryEntity;
+    return new DtoBuilder(CategoryDto).build({
+      ..._category,
+      parentId: _parent?.id,
+    });
   }
 
   async delete(id: string) {

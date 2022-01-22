@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/common/entity/base.entity';
-import { Column, Entity } from 'typeorm';
+import { ArticleEntity } from 'src/modules/article/entities/article.entity';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'category' })
 export class CategoryEntity extends BaseEntity {
@@ -22,9 +23,9 @@ export class CategoryEntity extends BaseEntity {
   })
   sortOrder: number;
 
-  @Column({
-    nullable: true,
-    comment: '父级id',
-  })
-  parentId: string;
+  @ManyToOne(() => CategoryEntity, (category) => category.id)
+  parent: CategoryEntity;
+
+  @OneToMany(() => ArticleEntity, (article) => article.category)
+  articles: ArticleEntity[];
 }

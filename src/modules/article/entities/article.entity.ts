@@ -1,7 +1,7 @@
 import { BaseEntity } from 'src/common/entity/base.entity';
 import { CategoryEntity } from 'src/modules/category/entities/category.entity';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'article' })
 export class ArticleEntity extends BaseEntity {
@@ -63,7 +63,8 @@ export class ArticleEntity extends BaseEntity {
   })
   author: UserEntity;
 
-  @OneToOne(() => CategoryEntity)
-  @JoinColumn()
+  @ManyToOne(() => CategoryEntity, (category) => category.articles, {
+    eager: true,
+  })
   category: CategoryEntity;
 }

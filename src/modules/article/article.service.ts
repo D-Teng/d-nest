@@ -4,8 +4,8 @@ import { DtoBuilder } from 'src/common/dto-builder';
 import { Repository } from 'typeorm';
 import { CategoryService } from '../category/category.service';
 import { UserService } from '../user/user.service';
-import { ArticleDto } from './dtos/article-dto';
 import { CreateArticleDto } from './dtos/create.dto';
+import { ArticleDto } from './dtos/retrieve-dto';
 import { ArticleEntity } from './entities/article.entity';
 
 @Injectable()
