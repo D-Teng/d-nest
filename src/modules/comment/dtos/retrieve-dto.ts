@@ -1,11 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
-// IsEmail,
-// IsNotEmpty,
-// IsOptional,
-// IsPhoneNumber,
-// MinLength,
+
 export class CommentDto {
   @ApiProperty()
   @IsString()

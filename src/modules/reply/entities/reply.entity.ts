@@ -1,12 +1,12 @@
 import { BaseEntity } from 'src/common/entity/base.entity';
-import { ArticleEntity } from 'src/modules/article/entities/article.entity';
+import { CommentEntity } from 'src/modules/comment/entities/comment.entity';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
-@Entity({ name: 'comment' })
-export class CommentEntity extends BaseEntity {
+@Entity({ name: 'reply' })
+export class ReplyEntity extends BaseEntity {
   @Column({
-    comment: '评论内容',
+    comment: '回复内容',
   })
   content: string;
 
@@ -28,8 +28,11 @@ export class CommentEntity extends BaseEntity {
   })
   likes: number;
 
-  @ManyToOne(() => ArticleEntity, (article) => article.id)
-  article: ArticleEntity;
+  @ManyToOne(() => CommentEntity, (comment) => comment.id)
+  comment: CommentEntity;
+
+  @ManyToOne(() => ReplyEntity, (reply) => reply.id)
+  reply: ReplyEntity;
 
   @OneToOne(() => UserEntity)
   @JoinColumn()
