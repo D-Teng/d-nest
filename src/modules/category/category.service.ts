@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DtoBuilder } from 'src/common/dto-builder';
+import { PaginationOutputDto } from 'src/common/dto/pagination.dto';
 import { PaginationBuilder } from 'src/common/pagination-builder';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dtos/create.dto';
-import { CategoryDto } from './dtos/retrieve.dto';
+import { CategoryDto, CategorySearchDto } from './dtos/retrieve.dto';
 import { UpdateCategoryDto } from './dtos/update.dto';
 import { CategoryEntity } from './entities/category.entity';
 
@@ -58,8 +59,10 @@ export class CategoryService {
     return new DtoBuilder(CategoryDto).build(categoryEntities);
   }
 
-  async findPage(param) {
-    const { page, size, ...where } = param;
+  async findPage(
+    query: CategorySearchDto,
+  ): Promise<PaginationOutputDto<CategoryDto>> {
+    const { page, size, ...where } = query;
     const options = {
       page,
       size,

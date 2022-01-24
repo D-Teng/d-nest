@@ -24,25 +24,28 @@ export class DtoBuilder<T> {
     repository: Repository<K>,
     options: PaginationOptions<K>,
   ) {
+    const { page, size, data, count } = await new PaginationBuilder<K>(
+      repository,
+      options,
+    )._build();
+
+    const paginationOutputDto = <PaginationOutputDto<T>>(
+      plainToInstance(PaginationOutputDto, {
+        data: plainToInstance(this.cls, data, {
+          excludeExtraneousValues: true,
+        }),
+        count,
+        page,
+        size,
+      })
+    );
+
     return {
-      async buildResponse(): Promise<ResponseBuilder<PaginationOutputDto<T>>> {
-        const { page, size, data, count } = await new PaginationBuilder<K>(
-          repository,
-          options,
-        )._build();
-
-        const paginationOutputDto = <PaginationOutputDto<T>>(
-          plainToInstance(PaginationOutputDto, {
-            data: plainToInstance(this.cls, data, {
-              excludeExtraneousValues: true,
-            }),
-            count,
-            page,
-            size,
-          })
-        );
-
+      buildResponse(): ResponseBuilder<PaginationOutputDto<T>> {
         return ResponseBuilder.buildSuccess(paginationOutputDto);
+      },
+      build(): PaginationOutputDto<T> {
+        return paginationOutputDto;
       },
     };
   }

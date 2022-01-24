@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DtoBuilder } from 'src/common/dto-builder';
+import { PaginationOutputDto } from 'src/common/dto/pagination.dto';
 import { Repository } from 'typeorm';
 import { CategoryService } from '../category/category.service';
 import { UserService } from '../user/user.service';
 import { CreateArticleDto } from './dtos/create.dto';
-import { ArticleDto } from './dtos/retrieve-dto';
+import { ArticleDto, ArticleSearchDto } from './dtos/retrieve-dto';
 import { ArticleEntity } from './entities/article.entity';
 
 @Injectable()
@@ -30,5 +31,19 @@ export class ArticleService {
     article.category = category;
     await this.articleRepository.save(article);
     return new DtoBuilder(ArticleDto).build(article);
+  }
+
+  async findPage(
+    query: ArticleSearchDto,
+  ): Promise<PaginationOutputDto<ArticleDto>> {
+    const { page, size, ...where } = query;
+    const buildPagination = await new DtoBuilder(ArticleDto).buildPagination(
+      this.articleRepository,
+      {
+        page,
+        size,
+      },
+    );
+    return buildPagination.build();
   }
 }

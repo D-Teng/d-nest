@@ -1,9 +1,9 @@
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { DtoBuilder } from './dto-builder';
 import { PaginationOutputDto } from './dto/pagination.dto';
 import { ClassConstructor } from './types/class-constructor.type';
 
-export interface PaginationOptions<T> extends FindManyOptions<T> {
+export interface PaginationOptions<T> extends FindOneOptions<T> {
   page: number;
   size: number;
 }

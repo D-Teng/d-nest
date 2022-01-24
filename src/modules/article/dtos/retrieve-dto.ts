@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
+import { PaginationInputDto } from 'src/common/dto/pagination.dto';
 
 export class ArticleDto {
   @ApiProperty()
@@ -10,7 +11,7 @@ export class ArticleDto {
 
   @ApiProperty()
   @Expose()
-  keyword: string;
+  keywords: string;
 
   @ApiProperty()
   @Expose()
@@ -26,5 +27,23 @@ export class ArticleDto {
 
   @ApiProperty()
   @Expose()
+  status: number;
+
+  @ApiProperty()
+  @Expose()
+  sortOrder: number;
+
+  @ApiProperty()
+  @Expose()
+  browses: number;
+
+  @ApiProperty()
+  @Expose()
+  likes: number;
+
+  @ApiProperty()
+  @Expose()
   authorId: string;
 }
+
+export class ArticleSearchDto extends PaginationInputDto {}
