@@ -1,6 +1,6 @@
 import { ClassTransformOptions, plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { PaginationOutputDto } from './dto/pagination.dto';
+import { PaginationOutputDto } from './dtos/pagination.dto';
 import { PaginationBuilder, PaginationOptions } from './pagination-builder';
 import { ResponseBuilder } from './response-builder';
 import { ClassConstructor } from './types/class-constructor.type';

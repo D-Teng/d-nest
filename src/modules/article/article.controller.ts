@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PaginationOutputDto } from 'src/common/dto/pagination.dto';
-import { ResponseBuilder } from 'src/common/response-builder';
+import { PaginationOutputDto } from 'src/commons/dtos/pagination.dto';
+import { ResponseBuilder } from 'src/commons/response-builder';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dtos/create.dto';
@@ -28,6 +28,12 @@ export class ArticleController {
     @Body() createArticleDto: CreateArticleDto,
   ): Promise<ResponseBuilder<ArticleDto>> {
     const res = await this.articleService.create(request, createArticleDto);
+    return ResponseBuilder.buildSuccess(res);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<ResponseBuilder<ArticleDto>> {
+    const res = await this.articleService.findOne(id);
     return ResponseBuilder.buildSuccess(res);
   }
 }

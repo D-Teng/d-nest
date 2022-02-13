@@ -4,13 +4,11 @@ import {
   HttpException,
   HttpStatus,
   Post,
-  Request,
-  UnauthorizedException,
-  UseGuards,
+  Request, UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { ResponseBuilder } from 'src/common/response-builder';
+import { ResponseBuilder } from 'src/commons/response-builder';
 import { Auth } from 'src/decorators/auth.decorator';
 import { User } from 'src/decorators/user.decorator';
 import { AuthService } from './auth.service';

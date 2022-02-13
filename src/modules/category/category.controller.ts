@@ -6,11 +6,11 @@ import {
   Param,
   Post,
   Put,
-  Query,
+  Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PaginationOutputDto } from 'src/common/dto/pagination.dto';
-import { ResponseBuilder } from 'src/common/response-builder';
+import { PaginationOutputDto } from 'src/commons/dtos/pagination.dto';
+import { ResponseBuilder } from 'src/commons/response-builder';
 import { EmptyFilterPipe } from 'src/pipes/empty-filter.pipe';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CategoryService } from './category.service';

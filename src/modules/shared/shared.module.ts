@@ -3,14 +3,14 @@ import {
   HttpStatus,
   Module,
   UnprocessableEntityException,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import path from 'path';
-import { configModuleOptions } from 'src/config/module-options';
+import { configModuleOptions } from 'src/configs/module-options';
 import { AllExceptionFilter } from 'src/filters/all-exception.filter';
 // import { TestPipe } from 'src/pipes/test.pipe';
 

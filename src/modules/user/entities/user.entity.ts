@@ -2,7 +2,7 @@ import { Exclude } from 'class-transformer';
 import { ArticleEntity } from 'src/modules/article/entities/article.entity';
 import { ROLE_TYPE } from 'src/modules/auth/constants/role-type.constant';
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
-import { BaseEntity } from '../../../common/entity/base.entity';
+import { BaseEntity } from '../../../commons/entities/base.entity';
 import { UserSettingsEntity } from './user-settings.entity';
 
 @Entity({ name: 'user' })

@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { BaseDto } from 'src/common/dto/base.dto';
+import { BaseDto } from 'src/commons/dtos/base.dto';
 import { ROLE_TYPE } from 'src/modules/auth/constants/role-type.constant';
 
 export class UserSettingsDto {

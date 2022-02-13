@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ResponseBuilder } from 'src/common/response-builder';
+import { ResponseBuilder } from 'src/commons/response-builder';
 import { Auth } from 'src/decorators/auth.decorator';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { ROLE_TYPE } from '../auth/constants/role-type.constant';

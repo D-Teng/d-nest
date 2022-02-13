@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DtoBuilder } from 'src/common/dto-builder';
-import { PaginationOutputDto } from 'src/common/dto/pagination.dto';
-import { PaginationBuilder } from 'src/common/pagination-builder';
+import { DtoBuilder } from 'src/commons/dto-builder';
+import { PaginationOutputDto } from 'src/commons/dtos/pagination.dto';
+import { PaginationBuilder } from 'src/commons/pagination-builder';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dtos/create.dto';
 import { CategoryDto, CategorySearchDto } from './dtos/retrieve.dto';

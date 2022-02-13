@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DtoBuilder } from 'src/common/dto-builder';
-import { PaginationOutputDto } from 'src/common/dto/pagination.dto';
+import { DtoBuilder } from 'src/commons/dto-builder';
+import { PaginationOutputDto } from 'src/commons/dtos/pagination.dto';
 import { Repository } from 'typeorm';
 import { CategoryService } from '../category/category.service';
 import { UserService } from '../user/user.service';
@@ -45,5 +45,12 @@ export class ArticleService {
       },
     );
     return buildPagination.build();
+  }
+
+  async findOne(id: string): Promise<ArticleDto> {
+    const articleEnity = await this.articleRepository.findOne(
+      { id },
+    );
+    return new DtoBuilder(ArticleDto).build(articleEnity);
   }
 }

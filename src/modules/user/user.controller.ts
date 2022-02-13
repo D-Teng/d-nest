@@ -7,14 +7,14 @@ import {
   Post,
   Put,
   Query,
-  Request,
+  Request
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
   PaginationInputDto,
-  PaginationOutputDto,
-} from 'src/common/dto/pagination.dto';
-import { ResponseBuilder } from 'src/common/response-builder';
+  PaginationOutputDto
+} from 'src/commons/dtos/pagination.dto';
+import { ResponseBuilder } from 'src/commons/response-builder';
 import { Auth } from 'src/decorators/auth.decorator';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CreateUserDto } from './dtos/create.dto';

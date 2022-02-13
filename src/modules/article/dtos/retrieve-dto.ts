@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
-import { PaginationInputDto } from 'src/common/dto/pagination.dto';
+import { PaginationInputDto } from 'src/commons/dtos/pagination.dto';
 
 export class ArticleDto {
   @ApiProperty()
